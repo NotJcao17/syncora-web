@@ -1,0 +1,59 @@
+---
+import '../styles/global.css';
+import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import { SITE } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = SITE.title, description = SITE.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.png', Astro.site);
+---
+
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#181C27" />
+    <link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a href="#contenido" class="skip">Saltar al contenido</a>
+    <slot />
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: var(--z-intro);
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    background: var(--color-ink);
+    color: var(--color-night);
+    font-weight: 700;
+    translate: 0 -200%;
+    transition: translate 200ms var(--ease-out-quint);
+  }
+  .skip:focus-visible {
+    translate: 0 0;
+  }
+</style>

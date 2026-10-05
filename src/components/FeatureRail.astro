@@ -1,0 +1,322 @@
+---
+import Phone from './Phone.astro';
+import descubrir from '../assets/screens/descubrir.png';
+import importar from '../assets/screens/importar.png';
+import descargas from '../assets/screens/descargas.png';
+
+const bars = Array.from({ length: 48 }, (_, i) => {
+  // forma de onda determinista, sin Math.random en el render
+  const v = Math.abs(Math.sin(i * 1.7) * 0.6 + Math.sin(i * 0.43) * 0.4);
+  return 0.25 + v * 0.75;
+});
+---
+
+<section class="rail" aria-labelledby="rail-title" data-rail>
+  <div class="rail__pin" data-rail-pin>
+    <div class="wrap rail__head">
+      <h2 id="rail-title" class="rail__title">Y trae más.</h2>
+      <p class="rail__hint" aria-hidden="true">
+        <span class="rail__hint-touch">Desliza</span><span class="rail__hint-scroll">Sigue bajando</span>
+        <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+      </p>
+    </div>
+
+    <ul class="rail__track" data-rail-track>
+      <li class="card card--phone">
+        <div class="card__media">
+          <Phone src={descubrir} alt="Descubrir: una canción a pantalla completa con su portada, botones de me gusta, agregar a playlist, a la cola y escucharla completa." sizes="240px" />
+        </div>
+        <div class="card__text">
+          <h3>Descubre en 30 segundos</h3>
+          <p>Desliza por canciones nuevas, escucha un fragmento y guarda las que te gusten.</p>
+        </div>
+      </li>
+
+      <li class="card card--wide card--crossfade">
+        <div class="card__text">
+          <h3>Crossfade</h3>
+          <p>Una canción se funde con la siguiente, de 2 a 6 segundos, en lo que tienes descargado.</p>
+        </div>
+        <div class="xfade" aria-hidden="true" data-xfade>
+          <div class="xfade__track xfade__track--a">
+            {bars.map((h) => <span style={`--h:${h.toFixed(3)}`} />)}
+          </div>
+          <div class="xfade__track xfade__track--b">
+            {bars.map((_, i) => <span style={`--h:${bars[(i + 17) % bars.length].toFixed(3)}`} />)}
+          </div>
+          <div class="xfade__overlap"><span>6 s</span></div>
+          <div class="xfade__chips">
+            <span>Off</span><span>2s</span><span>4s</span><span class="is-on">6s</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="card card--phone">
+        <div class="card__media">
+          <Phone src={importar} alt="Importación en segundo plano de la playlist Indie de madrugada: importando 20 de 36 canciones, se puede seguir usando la app." sizes="240px" />
+        </div>
+        <div class="card__text">
+          <h3>Trae tus playlists</h3>
+          <p>Exporta desde Spotify, Apple Music, Amazon Music o YouTube Music a un archivo CSV e impórtalas en segundo plano.</p>
+        </div>
+      </li>
+
+      <li class="card card--phone">
+        <div class="card__media">
+          <Phone src={descargas} alt="Música descargada: lista de canciones guardadas en el teléfono con buscador y el botón Vaciar." sizes="240px" />
+        </div>
+        <div class="card__text">
+          <h3>Sin conexión</h3>
+          <p>Descarga canciones o playlists completas en la calidad que elijas y escúchalas sin internet.</p>
+        </div>
+      </li>
+
+      <li class="card card--wide card--timer">
+        <div class="card__text">
+          <h3>Temporizador de apagado</h3>
+          <p>Para dormirte con música sin que suene toda la noche.</p>
+        </div>
+        <div class="timer" aria-hidden="true">
+          <svg viewBox="0 0 200 200" class="timer__ring">
+            <circle cx="100" cy="100" r="86" fill="none" stroke="oklch(1 0 0 / 0.08)" stroke-width="10"></circle>
+            <circle class="timer__progress" cx="100" cy="100" r="86" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="35" transform="rotate(-90 100 100)"></circle>
+          </svg>
+          <div class="timer__center">
+            <svg viewBox="0 0 24 24" class="size-8" fill="currentColor"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path></svg>
+            <span class="timer__time">19:30</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .rail {
+    padding-block: clamp(5rem, 10vw, 8rem);
+  }
+
+  .rail__head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .rail__title {
+    font-size: clamp(2.4rem, 1.4rem + 4.4vw, 5rem);
+    font-stretch: 118%;
+  }
+
+  .rail__hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-ink-3);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .rail__hint-scroll {
+    display: none;
+  }
+
+  .rail__track {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    padding-inline: var(--gutter);
+    padding-bottom: 1rem;
+    scrollbar-width: none;
+  }
+
+  .rail__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card {
+    flex: none;
+    scroll-snap-align: center;
+    display: grid;
+    align-content: space-between;
+    gap: 1.75rem;
+    width: min(82vw, 340px);
+    padding: 1.5rem;
+    border-radius: 28px;
+    background: var(--color-surface);
+    box-shadow: 0 0 0 1px oklch(1 0 0 / 0.06) inset;
+  }
+
+  .card--wide {
+    width: min(86vw, 460px);
+  }
+
+  .card__media {
+    justify-self: center;
+    width: 200px;
+  }
+
+  .card__text {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .card__text h3 {
+    font-size: 1.6rem;
+    font-stretch: 110%;
+  }
+
+  .card__text p {
+    color: var(--color-ink-2);
+  }
+
+  /* Crossfade: dos ondas que se cruzan en la zona de mezcla */
+  .xfade {
+    display: grid;
+    gap: 0.6rem;
+    align-content: center;
+    min-height: 300px;
+  }
+
+  .xfade__track {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 72px;
+  }
+
+  .xfade__track span {
+    flex: 1;
+    height: calc(var(--h) * 100%);
+    border-radius: 2px;
+    background: currentColor;
+  }
+
+  .xfade__track--a {
+    color: var(--color-indigo-soft);
+    mask-image: linear-gradient(90deg, #000 55%, transparent 88%);
+  }
+
+  .xfade__track--b {
+    color: var(--color-ember);
+    mask-image: linear-gradient(90deg, transparent 12%, #000 45%);
+  }
+
+  .xfade__overlap {
+    position: relative;
+    height: 1px;
+    margin-inline: 12% 12%;
+    background: oklch(1 0 0 / 0.15);
+  }
+
+  .xfade__overlap span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background: var(--color-surface-2);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .xfade__chips {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .xfade__chips span {
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+    background: var(--color-surface-2);
+    font-weight: 650;
+    font-size: 0.95rem;
+  }
+
+  .xfade__chips .is-on {
+    background: var(--color-ink);
+    color: var(--color-night);
+  }
+
+  /* Temporizador */
+  .timer {
+    position: relative;
+    justify-self: center;
+    width: min(240px, 60vw);
+    aspect-ratio: 1;
+    color: var(--color-indigo-soft);
+  }
+
+  .timer__ring {
+    width: 100%;
+    height: 100%;
+  }
+
+  .timer__center {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 0.5rem;
+  }
+
+  .timer__time {
+    color: var(--color-ink);
+    font-size: 2.6rem;
+    font-weight: 800;
+    font-stretch: 110%;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+  }
+
+  @media (min-width: 1024px) {
+    .rail {
+      padding-block: 0;
+    }
+
+    .rail__pin {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      padding-block: 6rem 4rem;
+    }
+
+    .rail__hint-touch {
+      display: none;
+    }
+    .rail__hint-scroll {
+      display: inline;
+    }
+
+    .rail__track {
+      overflow: visible;
+      gap: 1.5rem;
+      padding-left: max(var(--gutter), calc((100vw - var(--max)) / 2));
+      padding-right: 10vw;
+      width: max-content;
+      will-change: transform;
+    }
+
+    .card {
+      width: 380px;
+      min-height: min(540px, 62vh);
+      padding: 2rem;
+    }
+
+    .card--wide {
+      width: 520px;
+    }
+
+    .card__media {
+      width: min(220px, 22vh);
+    }
+  }
+</style>

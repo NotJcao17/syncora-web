@@ -1,0 +1,182 @@
+---
+import { Picture } from 'astro:assets';
+import Phone from './Phone.astro';
+import resumen from '../assets/screens/wrapped-resumen.png';
+import artistas from '../assets/screens/wrapped-artistas.png';
+import canciones from '../assets/screens/wrapped-canciones.png';
+import estadisticas from '../assets/screens/estadisticas-tops.png';
+
+const cards = [
+  {
+    src: artistas,
+    key: 'artistas',
+    alt: 'Tarjeta "Tus artistas, 12 meses": Bruno Mars en grande y después The Killers, Danny Ocean, Mac Miller y Coldplay.',
+  },
+  {
+    src: resumen,
+    key: 'resumen',
+    alt: 'Tarjeta de resumen de 12 meses: 289 horas escuchadas, top 5 de artistas y de canciones, 45 artistas y 5094 reproducciones.',
+  },
+  {
+    src: canciones,
+    key: 'canciones',
+    alt: 'Tarjeta "Tus canciones, 12 meses": Grenade de Bruno Mars en grande y después Tarde o temprano, Waiting For Love, The Spins y Viva La Vida.',
+  },
+];
+---
+
+<section class="wrapped" aria-labelledby="wrapped-title" data-wrapped>
+  <div class="wrap wrapped__head">
+    <h2 id="wrapped-title" class="wrapped__title" data-reveal>Tu resumen del año, sin esperar a diciembre.</h2>
+    <p class="lede wrapped__lede" data-reveal>
+      Horas escuchadas, artistas, canciones y géneros de la última semana, el mes, el año o todo tu
+      historial. Con tarjetas listas para compartir en tus historias.
+    </p>
+  </div>
+
+  <div class="wrapped__fan" data-wrapped-fan>
+    {
+      cards.map((card) => (
+        <figure class="wrapped__card" data-card={card.key}>
+          <Picture
+            src={card.src}
+            alt={card.alt}
+            formats={['avif', 'webp']}
+        fallbackFormat="webp"
+            widths={[300, 460, 640]}
+            sizes="(min-width: 1024px) 320px, 46vw"
+            loading="lazy"
+          />
+        </figure>
+      ))
+    }
+  </div>
+
+  <div class="wrap wrapped__stats">
+    <div class="wrapped__stats-phone">
+      <Phone
+        src={estadisticas}
+        alt="Estadísticas de 30 días: gráfica de minutos por día, tus artistas con Bruno Mars al frente y tus canciones encabezadas por Grenade con 13 reproducciones."
+        sizes="(min-width: 1024px) 300px, 60vw"
+      />
+    </div>
+    <div class="wrapped__stats-copy">
+      <h3>Y una pantalla de estadísticas para todos los días.</h3>
+      <p>
+        Cuánto escuchaste comparado con el periodo anterior, a qué horas pones música y qué géneros
+        dominan. Todo se calcula con lo que escuchas en el teléfono y en la PC.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wrapped {
+    position: relative;
+    overflow: clip;
+    padding-block: clamp(6rem, 12vw, 10rem);
+    background:
+      radial-gradient(70% 50% at 50% 38%, oklch(0.594 0.188 37.9 / 0.95), transparent 75%),
+      linear-gradient(180deg, var(--color-ember-deep), oklch(0.3 0.1 36));
+  }
+
+  .wrapped__head {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .wrapped__title {
+    font-size: clamp(2.4rem, 1.2rem + 5vw, 5.4rem);
+    font-stretch: 118%;
+    max-width: 15ch;
+  }
+
+  .wrapped__lede {
+    color: oklch(0.93 0.03 50);
+  }
+
+  .wrapped__fan {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-block: clamp(3rem, 7vw, 5.5rem);
+    perspective: 1400px;
+  }
+
+  .wrapped__card {
+    flex: none;
+    width: min(44vw, 320px);
+    margin-inline: calc(min(44vw, 320px) * -0.32);
+    border-radius: clamp(14px, 3.5vw, 26px);
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px oklch(1 0 0 / 0.12),
+      0 30px 60px -20px oklch(0.15 0.05 30 / 0.75);
+    transform-origin: 50% 85%;
+  }
+
+  .wrapped__card :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .wrapped__card[data-card='artistas'] {
+    rotate: -9deg;
+    translate: 0 4%;
+  }
+
+  .wrapped__card[data-card='resumen'] {
+    z-index: 2;
+  }
+
+  .wrapped__card[data-card='canciones'] {
+    rotate: 9deg;
+    translate: 0 4%;
+  }
+
+  .wrapped__stats {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .wrapped__stats-phone {
+    width: min(60vw, 280px);
+  }
+
+  .wrapped__stats-copy {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 30rem;
+  }
+
+  .wrapped__stats-copy h3 {
+    font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.5rem);
+  }
+
+  .wrapped__stats-copy p {
+    color: oklch(0.92 0.03 50);
+    font-size: 1.125rem;
+  }
+
+  @media (min-width: 1024px) {
+    .wrapped__card {
+      width: 320px;
+      margin-inline: -70px;
+    }
+
+    .wrapped__stats {
+      grid-template-columns: 300px minmax(0, 30rem);
+      justify-content: center;
+      gap: 5rem;
+    }
+
+    .wrapped__stats-phone {
+      width: 300px;
+    }
+  }
+</style>

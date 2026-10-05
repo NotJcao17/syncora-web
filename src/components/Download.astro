@@ -1,0 +1,275 @@
+---
+import { CLEF_PATH, RINGS_PATH } from '../data/logo';
+import { DOWNLOADS, FALLBACK_VERSION, RELEASES_URL, REPO_URL } from '../data/site';
+
+const grooves = Array.from({ length: 11 }, (_, i) => 250 + i * 22);
+---
+
+<section id="descargar" class="dl" aria-labelledby="dl-title" data-dl>
+  <div class="wrap dl__head">
+    <div class="dl__mark" aria-hidden="true">
+      <svg viewBox="0 0 1024 1024" class="dl__svg" data-dl-mark>
+        <g data-dl-vinyl>
+          <circle cx="512" cy="512" r="470" fill="oklch(0.13 0.01 270)"></circle>
+          {grooves.map((r) => <circle cx="512" cy="512" r={r} fill="none" stroke="oklch(1 0 0 / 0.07)" stroke-width="3" />)}
+          <circle cx="512" cy="512" r="190" fill="oklch(0.585 0.204 277.1)"></circle>
+          <circle cx="512" cy="512" r="14" fill="oklch(0.13 0.01 270)"></circle>
+        </g>
+        <path data-dl-rings fill="currentColor" fill-rule="evenodd" d={RINGS_PATH}></path>
+        <path data-dl-clef fill="currentColor" fill-rule="evenodd" d={CLEF_PATH}></path>
+      </svg>
+    </div>
+    <h2 id="dl-title" class="dl__title">Descárgala gratis.</h2>
+    <p class="lede dl__lede">
+      Versión <span data-release-version>{FALLBACK_VERSION}</span>. Elige tu equipo y sigue los tres
+      pasos: toma menos de un minuto.
+    </p>
+  </div>
+
+  <div class="wrap dl__grid">
+    <article class="panel" id="instalar-android" data-platform="android">
+      <header class="panel__top">
+        <svg viewBox="0 0 24 24" class="panel__os" fill="currentColor" aria-hidden="true"><path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.5 11.5 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"></path></svg>
+        <div>
+          <h3>Android</h3>
+          <p class="panel__req">{DOWNLOADS.android.requirement}</p>
+        </div>
+      </header>
+      <a class="btn btn-primary panel__btn" href={DOWNLOADS.android.url} data-download="android">
+        <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"></path><path d="M7 11l5 5 5-5"></path><path d="M5 20h14"></path></svg>
+        Descargar APK
+      </a>
+      <p class="panel__file" data-asset-info="android">{DOWNLOADS.android.file}</p>
+      <ol class="panel__steps">
+        <li><p><strong>Descarga el APK</strong> con el botón de arriba.</p></li>
+        <li><p><strong>Ábrelo.</strong> Si Android te pide permiso para "instalar apps desconocidas", actívalo
+          para tu navegador. Es el aviso normal para apps que no vienen de la Play Store.</p></li>
+        <li><p><strong>Instala y abre Syncora.</strong> Puedes usarla sin cuenta desde el primer momento.</p></li>
+      </ol>
+    </article>
+
+    <article class="panel" id="instalar-windows" data-platform="windows">
+      <header class="panel__top">
+        <svg viewBox="0 0 24 24" class="panel__os" fill="currentColor" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zM11.5 4.4L21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.4z"></path></svg>
+        <div>
+          <h3>Windows</h3>
+          <p class="panel__req">{DOWNLOADS.windows.requirement}</p>
+        </div>
+      </header>
+      <a class="btn btn-primary panel__btn" href={DOWNLOADS.windows.url} data-download="windows">
+        <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"></path><path d="M7 11l5 5 5-5"></path><path d="M5 20h14"></path></svg>
+        Descargar instalador
+      </a>
+      <p class="panel__file" data-asset-info="windows">{DOWNLOADS.windows.file}</p>
+      <ol class="panel__steps">
+        <li><p><strong>Descarga el instalador</strong> con el botón de arriba.</p></li>
+        <li><p><strong>Ábrelo.</strong> Si aparece "Windows protegió tu PC", toca <em>Más información</em> y
+          luego <em>Ejecutar de todas formas</em>.</p></li>
+        <li><p><strong>Sigue el instalador</strong> y abre Syncora desde el menú Inicio.</p></li>
+      </ol>
+    </article>
+  </div>
+
+  <div class="wrap dl__notes">
+    <div class="note">
+      <h3>¿Por qué aparece ese aviso?</h3>
+      <p>
+        Porque la app no viene de una tienda ni está firmada con un certificado de pago, algo que este
+        proyecto sin fines de lucro no tiene. El código es abierto: puedes revisarlo en
+        <a href={REPO_URL} rel="noopener">GitHub</a>.
+      </p>
+    </div>
+    <div class="note">
+      <h3>¿Y la cuenta?</h3>
+      <p>
+        Es opcional. Sin cuenta escuchas, buscas, descargas e importas playlists. La cuenta gratuita
+        agrega la sincronización entre teléfono y PC y las funciones de IA; por ahora hay 250 lugares.
+      </p>
+    </div>
+    <p class="dl__all">
+      <a href={RELEASES_URL} rel="noopener">Ver todas las versiones y notas de cambios</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .dl {
+    position: relative;
+    padding-block: clamp(6rem, 12vw, 10rem);
+    background:
+      radial-gradient(50% 40% at 50% 12%, oklch(0.585 0.204 277.1 / 0.32), transparent 72%),
+      var(--color-night-deep);
+  }
+
+  .dl__head {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 1.25rem;
+  }
+
+  .dl__mark {
+    width: clamp(120px, 22vw, 180px);
+    margin-bottom: 0.5rem;
+  }
+
+  .dl__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* Estado final (sin JS o movimiento reducido): el logo ya armado. */
+  .dl__svg [data-dl-vinyl] {
+    opacity: 0;
+  }
+
+  .dl__title {
+    font-size: clamp(2.6rem, 1.4rem + 5vw, 5.6rem);
+    font-stretch: 120%;
+  }
+
+  .dl__lede {
+    max-width: 44ch;
+  }
+
+  .dl__grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .panel {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: 28px;
+    background: var(--color-surface);
+    box-shadow: 0 0 0 1px oklch(1 0 0 / 0.07) inset;
+    scroll-margin-top: 96px;
+    transition: box-shadow 400ms var(--ease-out-quint);
+  }
+
+  .panel.is-mine {
+    box-shadow:
+      0 0 0 2px var(--color-indigo) inset,
+      0 30px 80px -40px oklch(0.585 0.204 277.1 / 0.8);
+  }
+
+  .panel__top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .panel__os {
+    width: 44px;
+    height: 44px;
+    color: var(--color-indigo-soft);
+  }
+
+  .panel__top h3 {
+    font-size: 1.9rem;
+    font-stretch: 112%;
+  }
+
+  .panel__req {
+    color: var(--color-ink-3);
+    font-size: 0.95rem;
+  }
+
+  .panel__btn {
+    width: 100%;
+  }
+
+  .panel__file {
+    margin-top: -0.5rem;
+    color: var(--color-ink-3);
+    font-size: 0.9rem;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .panel__steps {
+    display: grid;
+    gap: 0.9rem;
+    counter-reset: step;
+    padding-top: 1.25rem;
+    border-top: 1px solid oklch(1 0 0 / 0.08);
+  }
+
+  .panel__steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0.75rem;
+    color: var(--color-ink-2);
+  }
+
+  .panel__steps li::before {
+    content: counter(step);
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--color-surface-2);
+    color: var(--color-ink);
+    font-weight: 800;
+    font-size: 0.95rem;
+  }
+
+  .panel__steps strong {
+    color: var(--color-ink);
+  }
+
+  .dl__notes {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 3rem;
+  }
+
+  .note {
+    display: grid;
+    gap: 0.5rem;
+    max-width: 40rem;
+  }
+
+  .note h3 {
+    font-size: 1.25rem;
+    font-stretch: 108%;
+    letter-spacing: -0.01em;
+  }
+
+  .note p {
+    color: var(--color-ink-2);
+  }
+
+  .note a,
+  .dl__all a {
+    color: var(--color-indigo-soft);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .dl__all {
+    font-weight: 650;
+  }
+
+  @media (min-width: 860px) {
+    .dl__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .dl__notes {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .dl__all {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

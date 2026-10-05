@@ -1,0 +1,24 @@
+---
+import { CLEF_PATH, LOGO_VIEWBOX, RINGS_PATH } from '../data/logo';
+
+interface Props {
+  class?: string;
+  /** Color de los anillos; por defecto el mismo que la clave. */
+  ringsClass?: string;
+  title?: string;
+}
+
+const { class: className = '', ringsClass = '', title } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox={LOGO_VIEWBOX}
+  xmlns="http://www.w3.org/2000/svg"
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+  aria-label={title}
+>
+  <path class={ringsClass} data-logo="rings" fill="currentColor" fill-rule="evenodd" d={RINGS_PATH}></path>
+  <path data-logo="clef" fill="currentColor" fill-rule="evenodd" d={CLEF_PATH}></path>
+</svg>

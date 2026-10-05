@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import Intro from '../components/Intro.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Tour from '../components/Tour.astro';
+import Lyrics from '../components/Lyrics.astro';
+import AiSection from '../components/AiSection.astro';
+import FeatureRail from '../components/FeatureRail.astro';
+import WrappedSection from '../components/WrappedSection.astro';
+import Desktop from '../components/Desktop.astro';
+import Download from '../components/Download.astro';
+import Faq from '../components/Faq.astro';
+import Footer from '../components/Footer.astro';
+import MiniPlayer from '../components/MiniPlayer.astro';
+---
+
+<Base>
+  <Intro />
+  <Nav />
+  <main id="contenido">
+    <Hero />
+    <Tour />
+    <Lyrics />
+    <AiSection />
+    <FeatureRail />
+    <WrappedSection />
+    <Desktop />
+    <Download />
+    <Faq />
+  </main>
+  <Footer />
+  <MiniPlayer />
+</Base>
+
+<script>
+  import { initDownloads } from '../scripts/download';
+  import { initMotion } from '../scripts/motion';
+
+  initDownloads();
+  initMotion();
+</script>

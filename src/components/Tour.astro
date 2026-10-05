@@ -1,0 +1,195 @@
+---
+import Phone from './Phone.astro';
+import inicio from '../assets/screens/inicio.png';
+import biblioteca from '../assets/screens/biblioteca.png';
+import playlist from '../assets/screens/playlist.png';
+import cola from '../assets/screens/cola.png';
+
+const steps = [
+  {
+    key: 'inicio',
+    src: inicio,
+    title: 'Un inicio que se arma con lo que escuchas',
+    body: 'Mixes de tus artistas, una playlist "On Repeat" que se actualiza sola cada semana y sugerencias de artistas parecidos a los que más pones.',
+    alt: 'Pantalla de inicio de Syncora: accesos a Tus me gusta, Descargas, Estadísticas y Descubrir, la sección "Porque escuchaste a Bruno Mars" y la fila "Tus mixes".',
+  },
+  {
+    key: 'biblioteca',
+    src: biblioteca,
+    title: 'Tus playlists, con tus portadas',
+    body: 'Ponles la imagen que quieras, fíjalas arriba o agrúpalas en carpetas. En lista o en cuadrícula, como te acomode.',
+    alt: 'Biblioteca en cuadrícula con las playlists On Repeat, Estudiar, Chill y Driving, cada una con su portada.',
+  },
+  {
+    key: 'playlist',
+    src: playlist,
+    title: 'Descárgalas y escucha sin datos',
+    body: 'Una playlist descargada suena igual en el metro, en un avión o con el plan de datos agotado. Tú eliges la calidad.',
+    alt: 'Playlist Chill descargada, con el ícono de descarga junto a cada canción: Midnight City de M83, Pompeii de Bastille y más.',
+  },
+  {
+    key: 'cola',
+    src: cola,
+    title: 'Una cola que no se acaba',
+    body: 'Cuando se va a terminar, Syncora agrega canciones parecidas. Con "Mejorar cola" mezcla recomendaciones entre las tuyas, marcadas para que sepas cuáles son.',
+    alt: 'Cola de reproducción con Mr. Brightside sonando, las siguientes canciones de Hot Fuss y una recomendación de Arctic Monkeys intercalada.',
+  },
+];
+const [first, ...rest] = steps;
+---
+
+<section id="funciones" class="tour" aria-labelledby="tour-title" data-tour>
+  <div class="wrap tour__head">
+    <h2 id="tour-title" class="tour__title" data-reveal>Por dentro se ve así.</h2>
+    <p class="lede" data-reveal>
+      Capturas reales de la app en un teléfono Android, sin retoques.
+    </p>
+  </div>
+
+  <div class="wrap tour__body">
+    <ol class="tour__steps">
+      {
+        steps.map((step) => (
+          <li class="tour__step" data-tour-step={step.key}>
+            <div class="tour__inline-phone">
+              <Phone src={step.src} alt={step.alt} sizes="62vw" />
+            </div>
+            <div class="tour__text">
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="tour__sticky" aria-hidden="true">
+      <div class="tour__phone" data-tour-phone>
+        <Phone
+          src={first.src}
+          alt=""
+          layers={rest.map((s) => ({ src: s.src, alt: '', key: s.key }))}
+          sizes="340px"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tour {
+    position: relative;
+    padding-block: clamp(6rem, 12vw, 11rem) clamp(4rem, 8vw, 8rem);
+  }
+
+  .tour__head {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .tour__title {
+    font-size: clamp(2.4rem, 1.4rem + 4.4vw, 5rem);
+    font-stretch: 118%;
+    max-width: 12ch;
+  }
+
+  .tour__steps {
+    display: grid;
+    gap: 5rem;
+  }
+
+  .tour__step {
+    display: grid;
+    gap: 2rem;
+    justify-items: center;
+  }
+
+  .tour__inline-phone {
+    width: min(62vw, 300px);
+  }
+
+  .tour__text {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 34rem;
+  }
+
+  .tour__text h3 {
+    font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.6rem);
+  }
+
+  .tour__text p {
+    color: var(--color-ink-2);
+    font-size: 1.125rem;
+  }
+
+  .tour__sticky {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .tour__body {
+      display: grid;
+      grid-template-columns: minmax(0, 32rem) 340px;
+      justify-content: center;
+      column-gap: clamp(4rem, 9vw, 9rem);
+    }
+
+    .tour__steps {
+      gap: 0;
+    }
+
+    .tour__step {
+      min-height: 88vh;
+      align-content: center;
+      justify-items: start;
+    }
+
+    .tour__inline-phone {
+      display: none;
+    }
+
+    .tour__text {
+      opacity: 0.32;
+      transition: opacity 500ms var(--ease-out-quint);
+    }
+
+    .tour__step.is-active .tour__text {
+      opacity: 1;
+    }
+
+    .tour__sticky {
+      display: block;
+      position: relative;
+    }
+
+    .tour__phone {
+      position: sticky;
+      top: calc(50vh - 371px);
+      width: 340px;
+    }
+
+    .tour__phone :global([data-screen]) {
+      transition: opacity 600ms var(--ease-out-quint);
+    }
+
+    .tour__phone :global([data-screen].is-on) {
+      opacity: 1;
+    }
+  }
+
+  @media (min-width: 1024px) and (max-height: 820px) {
+    .tour__phone {
+      width: 280px;
+      top: calc(50vh - 306px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tour__text,
+    .tour__phone :global([data-screen]) {
+      transition: none;
+    }
+  }
+</style>

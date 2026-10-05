@@ -1,0 +1,77 @@
+---
+/*
+ * Fuente de la imagen para redes (public/og.png, 1200 × 630). Se regenera con
+ * `node scripts/og.mjs` con el servidor de desarrollo encendido. No se indexa.
+ */
+import '../styles/global.css';
+import Phone from '../components/Phone.astro';
+import Logo from '../components/Logo.astro';
+import reproductor from '../assets/screens/reproductor.png';
+import inicio from '../assets/screens/inicio.png';
+---
+
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>og</title>
+  </head>
+  <body>
+    <div class="og">
+      <div class="og__light"></div>
+      <div class="og__copy">
+        <div class="og__brand"><span class="og__logo"><Logo /></span><span>Syncora</span></div>
+        <h1>Tu música, sin anuncios y sin pagar.</h1>
+        <p>Reproductor gratuito para Android y Windows</p>
+      </div>
+      <div class="og__phones">
+        <div class="og__back"><Phone src={inicio} alt="" eager sizes="260px" /></div>
+        <div class="og__front"><Phone src={reproductor} alt="" eager sizes="290px" /></div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<style>
+  body { margin: 0; background: var(--color-night); }
+  .og {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 520px;
+    align-items: center;
+    padding-left: 72px;
+    isolation: isolate;
+  }
+  .og__light {
+    position: absolute;
+    z-index: -1;
+    right: -120px;
+    top: -60px;
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(closest-side, oklch(0.585 0.204 277.1 / 0.55), transparent 72%);
+  }
+  .og__copy { display: grid; gap: 22px; }
+  .og__brand {
+    display: flex; align-items: center; gap: 14px;
+    font-weight: 850; font-stretch: 118%; font-size: 34px; letter-spacing: -0.02em;
+  }
+  .og__logo { display: block; width: 56px; height: 56px; }
+  .og__logo :global(svg) { width: 100%; height: 100%; }
+  h1 {
+    margin: 0;
+    font-size: 76px;
+    font-stretch: 115%;
+    font-weight: 850;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    max-width: 10.5ch;
+  }
+  p { margin: 0; font-size: 26px; color: var(--color-ink-2); font-weight: 500; }
+  .og__phones { position: relative; height: 630px; }
+  .og__back { position: absolute; width: 250px; left: 30px; top: 150px; rotate: -10deg; opacity: 0.75; }
+  .og__front { position: absolute; width: 290px; left: 200px; top: 70px; rotate: 6deg; }
+</style>

@@ -1,0 +1,93 @@
+---
+/*
+ * Karaoke con texto propio: las líneas se "cantan" (se encienden) al pasar
+ * por el centro de la pantalla, igual que la vista de letras de la app.
+ * No se usan letras reales a propósito: tienen derechos de autor.
+ */
+const lines = [
+  'Las letras avanzan',
+  'con la canción,',
+  'línea por línea,',
+  'para que nunca',
+  'te pierdas el coro.',
+];
+---
+
+<section class="lyrics" aria-labelledby="lyrics-title" data-lyrics>
+  <div class="wrap lyrics__inner">
+    <h2 id="lyrics-title" class="lyrics__label">
+      <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3"></path></svg>
+      Letras sincronizadas
+    </h2>
+    <div class="lyrics__lines">
+      {lines.map((line) => <p class="lyrics__line" data-lyric>{line}</p>)}
+    </div>
+    <p class="lyrics__note">
+      Se abren desde el reproductor y siguen la canción cuando la letra está disponible.
+    </p>
+  </div>
+</section>
+
+<style>
+  .lyrics {
+    background: var(--color-night-deep);
+    padding-block: clamp(6rem, 14vw, 12rem);
+  }
+
+  .lyrics__inner {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .lyrics__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1rem;
+    font-weight: 700;
+    font-stretch: 100%;
+    letter-spacing: 0;
+    color: var(--color-indigo-soft);
+  }
+
+  .lyrics__lines {
+    display: grid;
+    gap: 0.15em;
+    font-size: clamp(2.4rem, 1rem + 6.4vw, 6rem);
+    font-weight: 850;
+    font-stretch: 112%;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+  }
+
+  .lyrics__line {
+    /* apagada pero legible: ≥3:1 sobre night-deep, como pide el texto grande */
+    color: oklch(0.55 0.035 265);
+    transition:
+      color 450ms var(--ease-out-quint),
+      scale 450ms var(--ease-out-quint);
+    transform-origin: left center;
+  }
+
+  :global(html:not(.js)) .lyrics__line,
+  .lyrics__line.is-sung {
+    color: var(--color-ink);
+  }
+
+  .lyrics__line.is-current {
+    color: var(--color-ink);
+    text-shadow: 0 0 28px oklch(1 0 0 / 0.35);
+  }
+
+  .lyrics__note {
+    max-width: 44ch;
+    color: var(--color-ink-2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lyrics__line {
+      color: var(--color-ink);
+      transition: none;
+    }
+  }
+</style>

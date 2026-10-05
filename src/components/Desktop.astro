@@ -1,0 +1,80 @@
+---
+import { Picture } from 'astro:assets';
+import windowsInicio from '../assets/screens/windows-inicio.png';
+---
+
+<section id="pc" class="desk" aria-labelledby="desk-title" data-desk>
+  <div class="wrap desk__head">
+    <h2 id="desk-title" class="desk__title" data-reveal>Y en tu PC también.</h2>
+    <p class="lede" data-reveal>
+      La app de Windows tiene la misma biblioteca, con la barra lateral de playlists y el reproductor
+      siempre abajo. Con una cuenta, tus playlists, me gusta y estadísticas se sincronizan entre el
+      teléfono y la computadora.
+    </p>
+  </div>
+
+  <div class="wrap desk__stage">
+    <div class="desk__window" data-desk-window>
+      <Picture
+        src={windowsInicio}
+        alt="Syncora en Windows: barra lateral con las playlists Tus me gusta, Indie de madrugada, On Repeat, Estudiar, Chill, Workout y Driving, y en el centro el inicio con accesos rápidos y la sección Porque escuchaste a Bruno Mars."
+        formats={['avif', 'webp']}
+        fallbackFormat="webp"
+        widths={[640, 1024, 1600, 1920]}
+        sizes="(min-width: 1280px) 1180px, 92vw"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .desk {
+    padding-block: clamp(6rem, 12vw, 10rem);
+    background: linear-gradient(180deg, var(--color-night) 0%, var(--color-night-deep) 100%);
+  }
+
+  .desk__head {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .desk__title {
+    font-size: clamp(2.4rem, 1.4rem + 4.4vw, 5rem);
+    font-stretch: 118%;
+  }
+
+  .desk__stage {
+    perspective: 1600px;
+  }
+
+  /* En el teléfono la ventana entera sería ilegible: se muestra más grande y
+     se deja salir por la derecha, enseñando la barra lateral y el inicio. */
+  @media (max-width: 767px) {
+    .desk__stage {
+      overflow: clip;
+      padding-bottom: 2rem;
+    }
+    .desk__window {
+      width: 190%;
+    }
+  }
+
+  .desk__window {
+    overflow: hidden;
+    border-radius: clamp(8px, 1.2vw, 14px);
+    background: var(--color-night);
+    box-shadow:
+      0 0 0 1px oklch(1 0 0 / 0.1),
+      0 40px 100px -30px oklch(0 0 0 / 0.8),
+      0 0 120px -40px oklch(0.585 0.204 277.1 / 0.45);
+    transform-origin: 50% 0%;
+  }
+
+  .desk__window :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

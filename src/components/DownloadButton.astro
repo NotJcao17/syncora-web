@@ -1,0 +1,27 @@
+---
+/**
+ * Botón de descarga que se adapta al dispositivo.
+ *
+ * Sin JS lleva a la sección de descarga. Con JS (`scripts/download.ts`), en
+ * Android o Windows descarga directo el archivo correcto y desplaza hasta los
+ * pasos de instalación de esa plataforma; en iPhone, Mac o Linux sigue
+ * llevando a la sección, que explica en qué equipos funciona.
+ */
+interface Props {
+  variant?: 'primary' | 'light';
+  class?: string;
+}
+
+const { variant = 'primary', class: className = '' } = Astro.props;
+---
+
+<a
+  href="#descargar"
+  class:list={['btn', variant === 'primary' ? 'btn-primary' : 'btn-light', className]}
+  data-download-auto
+>
+  <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 4v11"></path><path d="M7 11l5 5 5-5"></path><path d="M5 20h14"></path>
+  </svg>
+  <span data-download-label>Descargar gratis</span>
+</a>

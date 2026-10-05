@@ -1,0 +1,91 @@
+---
+import { CLEF_PATH, RINGS_PATH } from '../data/logo';
+
+/*
+ * Intro de la primera visita: un vinilo entra girando, la clave de sol se
+ * dibuja de abajo arriba, el vinilo se convierte en los anillos del logo y el
+ * logo viaja a su sitio en la barra de navegación.
+ *
+ * Nunca deja la página tapada: si el JS no llega, una animación CSS la retira
+ * sola; con movimiento reducido o en visitas siguientes de la misma sesión ni
+ * se pinta (el script inline decide antes del primer frame).
+ */
+const grooves = Array.from({ length: 11 }, (_, i) => 250 + i * 22);
+---
+
+<script is:inline>
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js');
+    try {
+      if (sessionStorage.getItem('syncora-intro') === '1') d.classList.add('intro-skip');
+    } catch (e) {}
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      d.classList.add('intro-skip', 'motion-ready');
+    }
+    // Seguro: si el JS de animación no llega, el contenido se muestra igual.
+    setTimeout(function () {
+      d.classList.add('motion-ready');
+    }, 3500);
+  })();
+</script>
+
+<div class="intro" data-intro aria-hidden="true">
+  <svg class="intro__mark" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" data-intro-mark>
+    <defs>
+      <clipPath id="intro-clef-clip">
+        <rect data-intro-clip x="0" y="0" width="1024" height="1024"></rect>
+      </clipPath>
+    </defs>
+    <g data-intro-vinyl>
+      <circle cx="512" cy="512" r="470" fill="oklch(0.13 0.01 270)"></circle>
+      {grooves.map((r) => <circle cx="512" cy="512" r={r} fill="none" stroke="oklch(1 0 0 / 0.07)" stroke-width="3" />)}
+      <path d="M512 42 A470 470 0 0 1 920 300" fill="none" stroke="oklch(1 0 0 / 0.16)" stroke-width="10" stroke-linecap="round"></path>
+      <circle cx="512" cy="512" r="190" fill="oklch(0.585 0.204 277.1)"></circle>
+      <circle cx="512" cy="512" r="14" fill="oklch(0.13 0.01 270)"></circle>
+    </g>
+    <path data-intro-rings fill="currentColor" fill-rule="evenodd" d={RINGS_PATH}></path>
+    <path data-intro-clef clip-path="url(#intro-clef-clip)" fill="currentColor" fill-rule="evenodd" d={CLEF_PATH}></path>
+  </svg>
+</div>
+
+<style>
+  .intro {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-intro);
+    display: grid;
+    place-items: center;
+    background: var(--color-night);
+    color: var(--color-ink);
+    /* Respaldo sin JS: se retira sola. El JS la cancela y la conduce. */
+    animation: intro-out 500ms var(--ease-out-quint) 2600ms forwards;
+  }
+
+  .intro__mark {
+    width: min(52vw, 300px);
+    height: auto;
+    overflow: visible;
+  }
+
+  :global(html.intro-skip) .intro {
+    display: none;
+  }
+
+  :global(html.intro-run) .intro {
+    animation: none;
+  }
+
+  @keyframes intro-out {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro {
+      display: none;
+    }
+  }
+</style>

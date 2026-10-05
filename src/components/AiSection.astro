@@ -1,0 +1,182 @@
+---
+import Phone from './Phone.astro';
+import iaPedir from '../assets/screens/ia-pedir.png';
+import iaResultado from '../assets/screens/ia-resultado.png';
+
+const prompt = 'indie y synth pop para manejar de noche';
+---
+
+<section class="ai" aria-labelledby="ai-title" data-ai>
+  <div class="wrap ai__grid">
+    <div class="ai__copy">
+      <h2 id="ai-title" class="ai__title" data-reveal>Pídele una playlist como se la pedirías a un amigo.</h2>
+      <p class="lede ai__lede" data-reveal>
+        Escribe qué quieres oír y la IA arma la lista con canciones reales del catálogo. Revisas el
+        resultado, quitas lo que no te convence y la guardas. También sirve para llenar la cola o para
+        agregar y quitar canciones de una playlist que ya tienes.
+      </p>
+
+      <div class="ai__prompt" data-ai-prompt>
+        <div class="ai__field">
+          <svg viewBox="0 0 24 24" class="ai__spark" fill="currentColor" aria-hidden="true"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9z"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z" opacity=".7"></path></svg>
+          <span class="ai__typed" data-ai-typed data-text={prompt}>{prompt}</span><span class="ai__caret" aria-hidden="true"></span>
+        </div>
+        <p class="ai__status" data-ai-status aria-live="polite">25 canciones listas para revisar</p>
+      </div>
+
+      <p class="ai__fine">Las funciones de IA necesitan una cuenta gratuita.</p>
+    </div>
+
+    <div class="ai__stage">
+      <div class="ai__phone" data-ai-phone>
+        <Phone
+          src={iaPedir}
+          alt={`Hoja "Modificar playlist con IA" con la petición "${prompt}" y la cantidad de 25 canciones.`}
+          layers={[
+            {
+              src: iaResultado,
+              alt: 'Resultado de la IA: 25 canciones seleccionadas, entre ellas Starboy de The Weeknd, Instant Crush de Daft Punk y Electric Feel de MGMT, con el botón "Agregar a la playlist".',
+              key: 'resultado',
+            },
+          ]}
+          sizes="(min-width: 1024px) 340px, 64vw"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ai {
+    position: relative;
+    overflow: clip;
+    padding-block: clamp(6rem, 12vw, 10rem);
+    background:
+      radial-gradient(60% 70% at 85% 45%, oklch(0.42 0.17 277 / 0.9), transparent 70%),
+      var(--color-indigo-night);
+  }
+
+  .ai__grid {
+    display: grid;
+    gap: 3.5rem;
+    align-items: center;
+  }
+
+  .ai__copy {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+
+  .ai__title {
+    font-size: clamp(2.3rem, 1.3rem + 4vw, 4.6rem);
+    font-stretch: 112%;
+    max-width: 14ch;
+  }
+
+  .ai__lede {
+    color: oklch(0.86 0.04 276);
+  }
+
+  .ai__prompt {
+    width: min(100%, 34rem);
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .ai__field {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 64px;
+    padding: 0.9rem 1.2rem;
+    border-radius: 18px;
+    background: oklch(0.2 0.07 277);
+    box-shadow:
+      0 0 0 1px oklch(0.785 0.104 274.7 / 0.3) inset,
+      0 20px 50px -20px oklch(0 0 0 / 0.6);
+    font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
+    font-weight: 600;
+  }
+
+  .ai__spark {
+    flex: none;
+    width: 1.3em;
+    height: 1.3em;
+    color: var(--color-indigo-soft);
+  }
+
+  .ai__caret {
+    width: 2px;
+    height: 1.2em;
+    margin-left: -0.5rem;
+    background: var(--color-indigo-soft);
+    animation: caret 1s steps(1) infinite;
+  }
+
+  .ai__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 650;
+    color: oklch(0.9 0.05 160);
+  }
+
+  .ai__status::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .ai__fine {
+    font-size: 0.92rem;
+    color: oklch(0.8 0.04 276);
+  }
+
+  .ai__stage {
+    justify-self: center;
+    width: min(64vw, 320px);
+  }
+
+  .ai__phone {
+    rotate: 4deg;
+  }
+
+  .ai__phone :global([data-screen]) {
+    transition: opacity 700ms var(--ease-out-quint);
+  }
+
+  .ai__phone :global([data-screen].is-on) {
+    opacity: 1;
+  }
+
+  /* Sin JS la vista queda en el resultado, que es lo que importa. */
+  :global(html:not(.js)) .ai__phone :global([data-screen='resultado']) {
+    opacity: 1;
+  }
+
+  @keyframes caret {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .ai__grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 5rem;
+    }
+    .ai__stage {
+      width: 340px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ai__caret {
+      animation: none;
+    }
+  }
+</style>

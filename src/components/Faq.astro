@@ -1,0 +1,114 @@
+---
+const faqs = [
+  {
+    q: '¿De verdad es gratis?',
+    a: 'Sí. No hay suscripción, ni anuncios, ni compras dentro de la app. Syncora es un proyecto personal sin fines de lucro.',
+  },
+  {
+    q: '¿Necesito crear una cuenta?',
+    a: 'No. Sin cuenta puedes escuchar, buscar, descargar e importar playlists. Con una cuenta gratuita se suman la sincronización entre teléfono y PC y las funciones de IA.',
+  },
+  {
+    q: '¿De dónde sale la música?',
+    a: 'La información de canciones, álbumes y artistas viene del catálogo público de Deezer. El audio se reproduce desde fuentes públicas de internet.',
+  },
+  {
+    q: '¿Hay versión para iPhone o Mac?',
+    a: 'Por ahora no. Syncora funciona en teléfonos Android y en computadoras con Windows 10 u 11.',
+  },
+  {
+    q: '¿Qué pasa con mis datos?',
+    a: 'Sin cuenta, todo se queda en tu dispositivo. Con cuenta se guardan tus playlists, me gusta e historial para sincronizarlos, y puedes borrar la cuenta con todos sus datos desde la configuración de la app.',
+  },
+];
+---
+
+<section id="preguntas" class="faq" aria-labelledby="faq-title">
+  <div class="wrap faq__grid">
+    <h2 id="faq-title" class="faq__title">Preguntas frecuentes</h2>
+    <div class="faq__list">
+      {
+        faqs.map((item) => (
+          <details class="faq__item">
+            <summary>
+              <span>{item.q}</span>
+              <svg viewBox="0 0 24 24" class="faq__icon" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14" /><path d="M5 12h14" /></svg>
+            </summary>
+            <p>{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    padding-block: clamp(5rem, 10vw, 8rem);
+  }
+
+  .faq__grid {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .faq__title {
+    font-size: clamp(2rem, 1.3rem + 3vw, 3.6rem);
+    font-stretch: 115%;
+  }
+
+  .faq__list {
+    display: grid;
+  }
+
+  .faq__item {
+    border-top: 1px solid oklch(1 0 0 / 0.1);
+  }
+
+  .faq__item:last-child {
+    border-bottom: 1px solid oklch(1 0 0 / 0.1);
+  }
+
+  .faq__item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 64px;
+    padding-block: 1.1rem;
+    cursor: pointer;
+    list-style: none;
+    font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+    font-weight: 700;
+    font-stretch: 106%;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__icon {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    color: var(--color-indigo-soft);
+    transition: rotate 300ms var(--ease-out-quint);
+  }
+
+  .faq__item[open] .faq__icon {
+    rotate: 45deg;
+  }
+
+  .faq__item p {
+    max-width: 62ch;
+    padding-bottom: 1.4rem;
+    color: var(--color-ink-2);
+  }
+
+  @media (min-width: 1024px) {
+    .faq__grid {
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 4rem;
+    }
+  }
+</style>

@@ -1,0 +1,92 @@
+---
+import Logo from './Logo.astro';
+---
+
+<header class="nav" data-nav>
+  <div class="wrap nav__row">
+    <a href="#" class="nav__brand" aria-label="Syncora, inicio de la página">
+      <span class="nav__logo" data-nav-logo><Logo class="size-full" /></span>
+      <span class="nav__word">Syncora</span>
+    </a>
+    <nav aria-label="Secciones" class="nav__links">
+      <a href="#funciones">Funciones</a>
+      <a href="#pc">En tu PC</a>
+      <a href="#preguntas">Preguntas</a>
+    </nav>
+    <a href="#descargar" class="btn btn-light nav__cta">Descargar</a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: var(--z-nav);
+    padding-top: env(safe-area-inset-top);
+    transition:
+      translate 400ms var(--ease-out-quint),
+      background-color 300ms var(--ease-out-quint);
+  }
+
+  .nav[data-state='solid'] {
+    background: oklch(0.228 0.022 269.1 / 0.82);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    box-shadow: 0 1px 0 oklch(1 0 0 / 0.06);
+  }
+
+  .nav[data-state='hidden'] {
+    translate: 0 -110%;
+  }
+
+  .nav__row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 72px;
+  }
+
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-right: auto;
+    font-weight: 800;
+    font-stretch: 115%;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+  }
+
+  .nav__logo {
+    display: block;
+    width: 34px;
+    height: 34px;
+  }
+
+  .nav__links {
+    display: none;
+    gap: 2rem;
+    font-weight: 600;
+    color: var(--color-ink-2);
+  }
+
+  .nav__links a {
+    transition: color 160ms var(--ease-out-quint);
+  }
+
+  .nav__links a:hover {
+    color: var(--color-ink);
+  }
+
+  .nav__cta {
+    min-height: 44px;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  @media (min-width: 860px) {
+    .nav__links {
+      display: flex;
+    }
+  }
+</style>

@@ -1,0 +1,203 @@
+---
+import Phone from './Phone.astro';
+import DownloadButton from './DownloadButton.astro';
+import reproductor from '../assets/screens/reproductor.png';
+
+const word = 'SYNCORA'.split('');
+---
+
+<section class="hero" data-hero aria-labelledby="hero-title">
+  <div class="hero__light" aria-hidden="true"></div>
+
+  <div class="hero__word" aria-hidden="true" data-hero-word>
+    {word.map((letter, i) => <span data-letter style={`--i:${i}`}>{letter}</span>)}
+  </div>
+
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <h1 id="hero-title" class="hero__title" data-hero-reveal>
+        Tu música, sin anuncios y sin pagar.
+      </h1>
+      <p class="lede" data-hero-reveal>
+        Syncora es un reproductor gratuito para Android y Windows. Escucha lo que quieras, descarga
+        canciones para oírlas sin conexión y lleva tu biblioteca del teléfono a la PC.
+      </p>
+      <div class="hero__actions" data-hero-reveal>
+        <DownloadButton variant="primary" />
+        <a href="#funciones" class="btn btn-ghost">Ver la app por dentro</a>
+      </div>
+    </div>
+
+    <div class="hero__stage" data-hero-stage>
+      <div class="hero__phone" data-hero-phone>
+        <Phone
+          src={reproductor}
+          alt="Reproductor de Syncora sonando Mr. Brightside de The Killers, con la portada de Hot Fuss, la barra de progreso y los controles."
+          eager
+          sizes="(min-width: 1024px) 340px, 60vw"
+        />
+      </div>
+
+      <span class="pill hero__chip hero__chip--a" data-float="-30" aria-hidden="true">
+        <svg viewBox="0 0 24 24" class="size-[1.1em]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6l12.8 12.8"></path></svg>
+        Sin anuncios
+      </span>
+      <span class="pill hero__chip hero__chip--b" data-float="40" aria-hidden="true">
+        <svg viewBox="0 0 24 24" class="size-[1.1em]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="M7 11l5 5 5-5"></path><path d="M5 20h14"></path></svg>
+        Funciona sin conexión
+      </span>
+      <span class="pill hero__chip hero__chip--c" data-float="-55" aria-hidden="true">
+        <svg viewBox="0 0 24 24" class="size-[1.1em]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="13" height="10" rx="1.5"></rect><path d="M7 18h5"></path><rect x="17" y="8" width="5" height="12" rx="1.2"></rect></svg>
+        También en tu PC
+      </span>
+    </div>
+  </div>
+
+  <dl class="wrap hero__meta" data-hero-reveal>
+    <div><dt>Precio</dt><dd>Gratis, sin compras</dd></div>
+    <div><dt>Plataformas</dt><dd>Android y Windows</dd></div>
+    <div><dt>Código</dt><dd>Abierto en GitHub</dd></div>
+  </dl>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    padding-top: 112px;
+    padding-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    overflow: clip;
+    isolation: isolate;
+  }
+
+  /* Una sola luz de escenario detrás del teléfono, no manchas de color. */
+  .hero__light {
+    position: absolute;
+    z-index: -2;
+    left: 50%;
+    top: 46%;
+    width: min(1100px, 140vw);
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    background: radial-gradient(closest-side, oklch(0.585 0.204 277.1 / 0.42), oklch(0.585 0.204 277.1 / 0.08) 55%, transparent 72%);
+    pointer-events: none;
+  }
+
+  .hero__word {
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: 58%;
+    translate: -50% -50%;
+    display: flex;
+    /* la palabra mide ~6.5 veces su tamaño: así ocupa el ancho exacto */
+    font-size: min(14.6vw, 17rem);
+    font-weight: 900;
+    font-stretch: 125%;
+    letter-spacing: -0.035em;
+    line-height: 0.8;
+    color: oklch(0.32 0.05 274);
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .hero__word span {
+    display: inline-block;
+  }
+
+  .hero__grid {
+    flex: 1;
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .hero__copy {
+    display: grid;
+    gap: 1.4rem;
+    justify-items: start;
+  }
+
+  .hero__title {
+    font-size: clamp(2.6rem, 1.6rem + 4.6vw, 5.4rem);
+    font-stretch: 115%;
+    font-weight: 850;
+    letter-spacing: -0.04em;
+    line-height: 0.96;
+    max-width: 11ch;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .hero__stage {
+    position: relative;
+    justify-self: center;
+    width: min(64vw, 300px);
+  }
+
+  .hero__phone {
+    rotate: -5deg;
+    transform-origin: 50% 60%;
+  }
+
+  .hero__chip {
+    position: absolute;
+    z-index: 2;
+  }
+  .hero__chip--a { top: 12%; left: -34%; }
+  .hero__chip--b { top: 52%; right: -36%; }
+  .hero__chip--c { bottom: 9%; left: -28%; }
+
+  .hero__meta {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid oklch(1 0 0 / 0.1);
+    font-size: 0.85rem;
+    line-height: 1.35;
+  }
+
+  .hero__meta dt {
+    color: var(--color-ink-3);
+  }
+
+  .hero__meta dd {
+    font-weight: 650;
+  }
+
+  @media (max-width: 520px) {
+    .hero__chip { font-size: 0.8rem; padding: 0.45rem 0.8rem; }
+    .hero__chip--a { left: -22%; }
+    .hero__chip--b { right: -24%; }
+    .hero__chip--c { left: -16%; }
+    .hero__meta { grid-template-columns: 1fr 1fr; }
+    .hero__meta > div:last-child { display: none; }
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      padding-top: 128px;
+    }
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 4rem;
+    }
+    .hero__stage {
+      width: min(340px, 26vw);
+    }
+    .hero__word {
+      top: 76%;
+    }
+  }
+</style>

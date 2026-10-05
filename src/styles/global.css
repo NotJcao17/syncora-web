@@ -1,0 +1,181 @@
+@import "@fontsource-variable/archivo/wdth.css";
+@import "tailwindcss";
+
+/*
+ * Paleta de la app (lib/core/theme/app_theme.dart) pasada a OKLCH.
+ * La web es nocturna como la app; el índigo es el acento de marca y el
+ * naranja "ember" sale de las tarjetas del Wrapped: solo vive en esa sección.
+ */
+@theme {
+  --color-night: oklch(0.228 0.022 269.1);        /* #181C27 fondo de la app */
+  --color-night-deep: oklch(0.175 0.019 270.3);   /* fondo de las secciones más oscuras */
+  --color-surface: oklch(0.267 0.027 260);        /* #1E2633 */
+  --color-surface-2: oklch(0.3 0.03 260.5);       /* #252E3D */
+  --color-line: oklch(0.392 0.038 260.5);         /* #3A465A */
+  --color-ink: oklch(1 0 0);
+  --color-ink-2: oklch(0.78 0.022 256);           /* texto secundario, 8:1 sobre night */
+  --color-ink-3: oklch(0.66 0.028 255);           /* apoyo, ≥5:1 sobre night */
+  --color-indigo: oklch(0.585 0.204 277.1);       /* #6366F1 acento de la app */
+  --color-indigo-deep: oklch(0.52 0.21 277.5);    /* botones: blanco encima a ≥5:1 */
+  --color-indigo-soft: oklch(0.785 0.104 274.7);  /* #A5B4FC */
+  --color-indigo-night: oklch(0.29 0.12 277);     /* sección de IA */
+  --color-ember: oklch(0.594 0.188 37.9);         /* #D6470F, tarjeta del Wrapped */
+  --color-ember-deep: oklch(0.42 0.135 36.1);     /* fondo de la sección Wrapped */
+
+  --font-sans: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Escala de capas: nada de 999 sueltos. */
+:root {
+  --z-base: 1;
+  --z-float: 10;
+  --z-sticky: 40;
+  --z-player: 50;
+  --z-nav: 60;
+  --z-intro: 100;
+
+  --gutter: clamp(16px, 4vw, 48px);
+  --max: 1240px;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    background: var(--color-night);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-stretch: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    min-height: 100dvh;
+    overflow-x: clip;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+    font-stretch: 112%;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-indigo);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-indigo-soft);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+}
+
+@layer components {
+  .wrap {
+    width: min(100% - 2 * var(--gutter), var(--max));
+    margin-inline: auto;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    min-height: 52px;
+    padding: 0.85rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-stretch: 108%;
+    font-size: 1rem;
+    line-height: 1;
+    white-space: nowrap;
+    transition:
+      transform 180ms var(--ease-out-quint),
+      background-color 180ms var(--ease-out-quint),
+      box-shadow 180ms var(--ease-out-quint);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-primary {
+    background: var(--color-indigo-deep);
+    color: var(--color-ink);
+    box-shadow: 0 0 0 1px oklch(1 0 0 / 0.08) inset, 0 10px 30px -10px oklch(0.585 0.204 277.1 / 0.7);
+  }
+  .btn-primary:hover {
+    background: var(--color-indigo);
+  }
+  .btn-light {
+    background: var(--color-ink);
+    color: var(--color-night);
+  }
+  .btn-light:hover {
+    background: oklch(0.93 0.01 270);
+  }
+  .btn-ghost {
+    background: oklch(1 0 0 / 0.06);
+    color: var(--color-ink);
+    box-shadow: 0 0 0 1px oklch(1 0 0 / 0.12) inset;
+  }
+  .btn-ghost:hover {
+    background: oklch(1 0 0 / 0.1);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 600;
+    background: var(--color-surface);
+    box-shadow: 0 0 0 1px oklch(1 0 0 / 0.07) inset, 0 18px 40px -18px oklch(0 0 0 / 0.8);
+  }
+
+  .lede {
+    color: var(--color-ink-2);
+    font-size: clamp(1.0625rem, 0.95rem + 0.45vw, 1.25rem);
+    line-height: 1.6;
+    max-width: 58ch;
+  }
+}
+
+@media (hover: none) {
+  .btn-primary:hover { background: var(--color-indigo-deep); }
+  .btn-light:hover { background: var(--color-ink); }
+  .btn-ghost:hover { background: oklch(1 0 0 / 0.06); }
+}
+
+/* Entrada del hero: oculto solo mientras el JS prepara la animación. */
+html.js:not(.motion-ready) [data-hero-reveal],
+html.js:not(.motion-ready) [data-hero-phone],
+html.js:not(.motion-ready) [data-letter],
+html.js:not(.motion-ready) .hero__chip {
+  opacity: 0;
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }

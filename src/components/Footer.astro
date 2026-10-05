@@ -1,0 +1,61 @@
+---
+import Logo from './Logo.astro';
+import { REPO_URL } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="wrap foot__grid">
+    <div class="foot__brand">
+      <Logo class="size-10" />
+      <span>Syncora Player</span>
+    </div>
+    <p class="foot__text">
+      Proyecto de código abierto bajo licencia GPL-3.0.
+      <a href={REPO_URL} rel="noopener">Código en GitHub</a>.
+    </p>
+    <p class="foot__fine">
+      Las capturas usan una cuenta de demostración con datos de ejemplo. Syncora no está afiliada a
+      Deezer, Spotify, YouTube ni a ningún otro servicio mencionado en esta página. © {year}.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    padding-block: 3rem calc(6rem + env(safe-area-inset-bottom));
+    border-top: 1px solid oklch(1 0 0 / 0.08);
+  }
+
+  .foot__grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .foot__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 800;
+    font-stretch: 112%;
+    font-size: 1.2rem;
+  }
+
+  .foot__text,
+  .foot__fine {
+    color: var(--color-ink-2);
+    max-width: 70ch;
+  }
+
+  .foot__fine {
+    font-size: 0.9rem;
+    color: var(--color-ink-3);
+  }
+
+  .foot a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>
