@@ -50,15 +50,6 @@ export function initDownloads() {
         if (panel) window.setTimeout(() => scrollToTarget(panel), 350);
       });
     });
-
-    // El mini reproductor también descarga directo.
-    document.querySelectorAll<HTMLAnchorElement>('[data-mini-download]').forEach((btn) => {
-      btn.href = info.url;
-      btn.dataset.download = platform;
-      btn.addEventListener('click', () => {
-        if (panel) window.setTimeout(() => scrollToTarget(panel), 350);
-      });
-    });
   }
 
   void loadRelease();

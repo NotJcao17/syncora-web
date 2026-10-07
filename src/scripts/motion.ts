@@ -288,25 +288,22 @@ function setupAi() {
 /* ----------------------------- Rail ------------------------------- */
 
 function setupRail() {
-  const mm = gsap.matchMedia();
-  mm.add('(min-width: 1024px)', () => {
-    const pin = $('[data-rail-pin]');
-    const track = $('[data-rail-track]');
-    if (!pin || !track) return;
-    const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
-    const tween = gsap.to(track, {
-      x: () => -distance(),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: pin,
-        start: 'top top',
-        end: () => `+=${distance()}`,
-        pin: true,
-        scrub: 0.8,
-        invalidateOnRefresh: true,
-      },
-    });
-    return () => tween.scrollTrigger?.kill();
+  // En todos los anchos: en móvil el scroll vertical también mueve el carril.
+  const pin = $('[data-rail-pin]');
+  const track = $('[data-rail-track]');
+  if (!pin || !track) return;
+  const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+  gsap.to(track, {
+    x: () => -distance(),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: pin,
+      start: 'top top',
+      end: () => `+=${distance()}`,
+      pin: true,
+      scrub: 0.8,
+      invalidateOnRefresh: true,
+    },
   });
 }
 
@@ -382,7 +379,15 @@ function setupStateWatchers() {
   const time = $('[data-mini-time]');
   const sectionLabel = $('[data-mini-section]');
 
+  // La barra se esconde al bajar y vuelve al subir, pero solo tras recorrer
+  // NAV_TRAVEL en la misma dirección: con el scroll suave de Lenis, bajar
+  // despacio mueve 1 o 2 px por cuadro y comparar cuadro contra cuadro la
+  // hacía saltar entre oculta y visible.
+  const NAV_TRAVEL = 48;
   let lastY = window.scrollY;
+  let turnY = lastY;
+  let goingDown = false;
+  let navHidden = false;
   const onScroll = () => {
     const y = window.scrollY;
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -390,7 +395,15 @@ function setupStateWatchers() {
 
     if (nav) {
       const pastHero = hero ? y > hero.offsetHeight * 0.6 : y > 400;
-      nav.dataset.state = y < 24 ? 'top' : pastHero && y > lastY + 2 ? 'hidden' : 'solid';
+      if (y !== lastY && y > lastY !== goingDown) {
+        goingDown = y > lastY;
+        turnY = lastY;
+      }
+      if (!pastHero) navHidden = false;
+      else if (goingDown && y - turnY > NAV_TRAVEL) navHidden = true;
+      else if (!goingDown && turnY - y > NAV_TRAVEL) navHidden = false;
+      const state = y < 24 ? 'top' : navHidden ? 'hidden' : 'solid';
+      if (nav.dataset.state !== state) nav.dataset.state = state;
     }
     if (mini && hero) mini.dataset.state = y > hero.offsetHeight * 0.75 ? 'on' : 'off';
     if (progress) progress.style.scale = `${p} 1`;

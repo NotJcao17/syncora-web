@@ -49,18 +49,6 @@ import windowsInicio from '../assets/screens/windows-inicio.png';
     perspective: 1600px;
   }
 
-  /* En el teléfono la ventana entera sería ilegible: se muestra más grande y
-     se deja salir por la derecha, enseñando la barra lateral y el inicio. */
-  @media (max-width: 767px) {
-    .desk__stage {
-      overflow: clip;
-      padding-bottom: 2rem;
-    }
-    .desk__window {
-      width: 190%;
-    }
-  }
-
   .desk__window {
     overflow: hidden;
     border-radius: clamp(8px, 1.2vw, 14px);

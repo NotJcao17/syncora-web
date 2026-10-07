@@ -5,7 +5,8 @@ import Logo from './Logo.astro';
 <!--
   La página es una canción: este mini reproductor (el mismo gesto que la app)
   aparece al salir del hero, dice en qué parte vas y su barra avanza con el
-  scroll como si sonara Mr. Brightside (3:43). El botón siempre descarga.
+  scroll como si sonara Mr. Brightside (3:43). El botón lleva a la sección de
+  descarga, donde están los pasos para instalar.
 -->
 <aside class="mini" data-mini aria-label="Progreso de la página y descarga">
   <div class="mini__bar" aria-hidden="true"><span data-mini-progress></span></div>
@@ -16,7 +17,7 @@ import Logo from './Logo.astro';
       <span class="mini__section" data-mini-section aria-live="polite">Tu música, sin anuncios</span>
     </div>
     <span class="mini__time" aria-hidden="true"><span data-mini-time>0:00</span> / 3:43</span>
-    <a href="#descargar" class="btn btn-light mini__btn" data-mini-download>Descargar</a>
+    <a href="#descargar" class="btn btn-light mini__btn">Descargar</a>
   </div>
 </aside>
 
