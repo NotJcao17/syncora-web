@@ -15,6 +15,7 @@ interface Release {
 }
 
 const CACHE_KEY = 'syncora-release';
+const STARS_CACHE_KEY = 'syncora-stars';
 const CACHE_MS = 30 * 60 * 1000;
 
 export function detectPlatform(): Platform {
@@ -53,38 +54,52 @@ export function initDownloads() {
   }
 
   void loadRelease();
+  void loadStars();
 }
 
-async function loadRelease() {
-  let release: Release | null = null;
+/** Lee de la API de GitHub con caché de sesión; null si falla o no existe. */
+async function fetchGitHub<T>(path: string, cacheKey: string): Promise<T | null> {
   try {
-    const cached = sessionStorage.getItem(CACHE_KEY);
+    const cached = sessionStorage.getItem(cacheKey);
     if (cached) {
-      const { at, data } = JSON.parse(cached) as { at: number; data: Release };
-      if (Date.now() - at < CACHE_MS) release = data;
+      const { at, data } = JSON.parse(cached) as { at: number; data: T };
+      if (Date.now() - at < CACHE_MS) return data;
     }
   } catch {
     /* sin almacenamiento: se pide a la API */
   }
 
-  if (!release) {
+  try {
+    const res = await fetch(`https://api.github.com/repos/${REPO}${path}`, {
+      headers: { Accept: 'application/vnd.github+json' },
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as T;
     try {
-      const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
-        headers: { Accept: 'application/vnd.github+json' },
-      });
-      if (!res.ok) return; // todavía no hay versión publicada: se queda el respaldo
-      release = (await res.json()) as Release;
-      try {
-        sessionStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), data: release }));
-      } catch {
-        /* nada */
-      }
+      sessionStorage.setItem(cacheKey, JSON.stringify({ at: Date.now(), data }));
     } catch {
-      return;
+      /* nada */
     }
+    return data;
+  } catch {
+    return null;
   }
+}
 
-  applyRelease(release);
+async function loadRelease() {
+  // Sin versión publicada todavía, se queda el respaldo.
+  const release = await fetchGitHub<Release>('/releases/latest', CACHE_KEY);
+  if (release) applyRelease(release);
+}
+
+async function loadStars() {
+  const repo = await fetchGitHub<{ stargazers_count: number }>('', STARS_CACHE_KEY);
+  if (!repo) return;
+  const count = new Intl.NumberFormat('es-MX', { notation: 'compact' }).format(repo.stargazers_count);
+  document.querySelectorAll<HTMLElement>('[data-star-count]').forEach((el) => {
+    el.textContent = count;
+    el.hidden = false;
+  });
 }
 
 function applyRelease(release: Release) {
