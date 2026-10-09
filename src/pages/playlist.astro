@@ -10,6 +10,7 @@
  */
 import Page from '../layouts/Page.astro';
 import Logo from '../components/Logo.astro';
+import { ADD_CIRCLE, PLAY, SHUFFLE, SOLAR_VIEWBOX } from '../data/solar-icons';
 ---
 
 <Page
@@ -27,14 +28,14 @@ import Logo from '../components/Logo.astro';
         <p class="pl__stats" data-pl-stats><span class="pl__skel pl__skel--line"></span></p>
         <div class="pl__actions">
           <button type="button" class="pl__play" data-gate aria-label="Reproducir">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14z"></path></svg>
+            <svg viewBox={SOLAR_VIEWBOX} fill="currentColor" aria-hidden="true"><path d={PLAY}></path></svg>
           </button>
           <button type="button" class="btn btn-ghost" data-gate>
-            <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+            <svg viewBox={SOLAR_VIEWBOX} class="size-5" fill="currentColor" aria-hidden="true"><path d={ADD_CIRCLE}></path></svg>
             Guardar
           </button>
           <button type="button" class="btn btn-ghost pl__shuffle" data-gate aria-label="Aleatorio">
-            <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"></path><path d="M4 20 21 3"></path><path d="M21 16v5h-5"></path><path d="m15 15 6 6"></path><path d="M4 4l5 5"></path></svg>
+            <svg viewBox={SOLAR_VIEWBOX} class="size-5" fill="currentColor" aria-hidden="true"><path d={SHUFFLE}></path></svg>
           </button>
         </div>
       </div>
@@ -197,9 +198,8 @@ import Logo from '../components/Logo.astro';
   }
 
   .pl__play svg {
-    width: 26px;
-    height: 26px;
-    translate: 2px 0;
+    width: 28px;
+    height: 28px;
   }
 
   .pl__shuffle {
