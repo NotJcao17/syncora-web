@@ -1,6 +1,6 @@
 ---
 import Logo from './Logo.astro';
-import { REPO_URL } from '../data/site';
+import { CONTACT_EMAIL, REPO_URL } from '../data/site';
 
 const year = new Date().getFullYear();
 ---
@@ -15,9 +15,17 @@ const year = new Date().getFullYear();
       Proyecto de código abierto bajo licencia GPL-3.0.
       <a href={REPO_URL} rel="noopener">Código en GitHub</a>.
     </p>
+    <nav class="foot__links" aria-label="Información legal">
+      <a href="/privacidad">Aviso de privacidad</a>
+      <a href="/terminos">Términos y aviso legal</a>
+      <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+    </nav>
     <p class="foot__fine">
-      Las capturas usan una cuenta de demostración con datos de ejemplo. Syncora no está afiliada a
-      Deezer, Spotify, YouTube ni a ningún otro servicio mencionado en esta página. © {year}.
+      Datos de canciones, álbumes y artistas: <a href="https://www.deezer.com" rel="noopener">Deezer</a>.
+      Letras: <a href="https://lrclib.net" rel="noopener">LRCLib</a>. Syncora no aloja ni distribuye
+      música y no está afiliada a Deezer, Spotify, YouTube, Google ni a ningún otro servicio mencionado
+      en esta página; sus marcas pertenecen a sus dueños. Las capturas usan una cuenta de demostración
+      con datos de ejemplo. © {year}.
     </p>
   </div>
 </footer>
@@ -46,6 +54,19 @@ const year = new Date().getFullYear();
   .foot__fine {
     color: var(--color-ink-2);
     max-width: 70ch;
+  }
+
+  .foot__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    font-weight: 600;
+  }
+
+  .foot__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
 
   .foot__fine {

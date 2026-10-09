@@ -6,9 +6,11 @@ import { SITE } from '../data/site';
 interface Props {
   title?: string;
   description?: string;
+  /** Páginas que no deben aparecer en buscadores (vistas de playlists compartidas). */
+  noindex?: boolean;
 }
 
-const { title = SITE.title, description = SITE.description } = Astro.props;
+const { title = SITE.title, description = SITE.description, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/og.png', Astro.site);
 ---
@@ -21,6 +23,7 @@ const ogImage = new URL('/og.png', Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#181C27" />
     <link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />

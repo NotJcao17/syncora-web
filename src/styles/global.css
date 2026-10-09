@@ -179,3 +179,63 @@ html.js:not(.motion-ready) .hero__chip {
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
+
+/* Páginas de texto largo: aviso de privacidad y términos. */
+@layer components {
+  .doc {
+    width: min(100% - 2 * var(--gutter), 760px);
+    margin-inline: auto;
+    padding-block: clamp(3rem, 8vw, 5.5rem) clamp(4rem, 10vw, 7rem);
+  }
+  .doc h1 {
+    font-size: clamp(2.2rem, 1.4rem + 3.5vw, 3.8rem);
+    font-stretch: 116%;
+  }
+  .doc__meta {
+    margin-top: 1rem;
+    color: var(--color-ink-3);
+    font-size: 0.95rem;
+  }
+  .doc h2 {
+    margin-top: 3rem;
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem);
+    font-stretch: 108%;
+    line-height: 1.15;
+  }
+  .doc h3 {
+    margin-top: 1.75rem;
+    font-size: 1.1rem;
+    font-stretch: 104%;
+    letter-spacing: -0.01em;
+  }
+  .doc p,
+  .doc ul,
+  .doc ol {
+    margin-top: 1rem;
+    color: var(--color-ink-2);
+  }
+  .doc ul,
+  .doc ol {
+    padding-left: 1.25rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .doc ul { list-style: disc; }
+  .doc ol { list-style: decimal; }
+  .doc li::marker { color: var(--color-ink-3); }
+  .doc strong { color: var(--color-ink); font-weight: 700; }
+  .doc a {
+    color: var(--color-indigo-soft);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+  }
+  .doc__summary {
+    margin-top: 2rem;
+    padding: 1.25rem 1.4rem;
+    border-radius: 18px;
+    background: var(--color-surface);
+    box-shadow: 0 0 0 1px oklch(1 0 0 / 0.07) inset;
+  }
+  .doc__summary p:first-child { margin-top: 0; }
+}

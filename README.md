@@ -25,6 +25,9 @@ npm run check      # tipos (usa TypeScript 6: astro check no soporta la 7)
 | `src/data/logo.ts` | Logo vectorizado desde el ícono de la app (clave y anillos por separado) |
 | `src/assets/screens/` | Capturas reales de la app (modo demo de Android) |
 | `src/pages/og.astro` | Fuente de `public/og.png` (no se indexa) |
+| `src/pages/privacidad.astro`, `terminos.astro` | Aviso de privacidad (LFPDPPP) y términos con el descargo de contenido. Fecha y contacto en `src/data/site.ts` |
+| `src/pages/playlist.astro` + `src/scripts/shared-playlist.ts` | Vista de solo lectura de una playlist compartida desde la app |
+| `public/_redirects` | Reescribe `/playlist/<id>` a la página de playlist (Cloudflare Pages) |
 | `PRODUCT.md`, `DESIGN.md` | Para quién es la página y su sistema visual |
 
 ## Descargas
@@ -61,10 +64,23 @@ node scripts/shoot.mjs desktop capturas
 node scripts/shoot.mjs mobile capturas
 ```
 
+## Playlists compartidas
+
+La app copia enlaces `https://syncoraplayer.app/playlist/<id>` y marca la playlist como pública.
+La página pide la playlist a Supabase por REST con la llave `anon` (pública por diseño); el RLS solo
+devuelve playlists con `is_public = true`, así que una privada o borrada se ve como "no disponible".
+Reproducir, guardar o aleatorio abren un aviso con "Abrir en la app" (`intent://` en Android,
+`syncoraplayer://` en Windows) y la descarga. Se cargan 100 canciones por página.
+
+`npm run dev` no aplica `_redirects`: para probar en local usa `/playlist/?id=<uuid>`.
+
+Todo lo que viene de la base lo escribió un usuario: se pinta con `textContent`, nunca como HTML.
+
 ## Desplegar en Cloudflare Pages
 
 1. Sube este repo a GitHub.
 2. Cloudflare → Workers & Pages → Create → Pages → conecta el repo.
 3. Framework preset: **Astro**. Build command: `npm run build`. Output: `dist`.
 4. Variable de entorno `NODE_VERSION` = `22` (o la que uses en local).
-5. Cuando tengas el dominio, cámbialo en `site` de `astro.config.mjs`.
+5. El dominio (`syncoraplayer.app`) ya está en `site` de `astro.config.mjs`.
+6. Web Analytics se activa desde el proyecto de Pages (sin cookies, no requiere código).

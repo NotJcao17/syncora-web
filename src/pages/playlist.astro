@@ -1,0 +1,445 @@
+---
+/**
+ * Vista de una playlist compartida desde la app (`/playlist/<id>`).
+ *
+ * Es una sola página estática: `public/_redirects` reescribe cualquier
+ * `/playlist/<id>` a esta, y el script lee el id de la dirección y pide la
+ * playlist a Supabase con la llave pública (el RLS solo deja leer las que su
+ * dueño compartió). Solo se ve: reproducir, guardar o buscar abre el aviso
+ * para descargar la app.
+ */
+import Page from '../layouts/Page.astro';
+import Logo from '../components/Logo.astro';
+---
+
+<Page
+  title="Playlist compartida · Syncora Player"
+  description="Alguien te compartió una playlist de Syncora Player. Ábrela en la app para escucharla."
+  noindex
+>
+  <section class="pl wrap" data-pl data-state="loading" aria-live="polite">
+    <div class="pl__head">
+      <div class="pl__cover" data-pl-cover aria-hidden="true"></div>
+      <div class="pl__meta">
+        <p class="pl__eyebrow">Playlist compartida</p>
+        <h1 class="pl__title" data-pl-title><span class="pl__skel pl__skel--title"></span></h1>
+        <p class="pl__desc" data-pl-desc hidden></p>
+        <p class="pl__stats" data-pl-stats><span class="pl__skel pl__skel--line"></span></p>
+        <div class="pl__actions">
+          <button type="button" class="pl__play" data-gate aria-label="Reproducir">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14z"></path></svg>
+          </button>
+          <button type="button" class="btn btn-ghost" data-gate>
+            <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+            Guardar
+          </button>
+          <button type="button" class="btn btn-ghost pl__shuffle" data-gate aria-label="Aleatorio">
+            <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"></path><path d="M4 20 21 3"></path><path d="M21 16v5h-5"></path><path d="m15 15 6 6"></path><path d="M4 4l5 5"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ol class="pl__tracks" data-pl-tracks>
+      {
+        Array.from({ length: 6 }).map(() => (
+          <li class="pl__row pl__row--skel" aria-hidden="true">
+            <span class="pl__thumb pl__skel" />
+            <span class="pl__text">
+              <span class="pl__skel pl__skel--line" />
+              <span class="pl__skel pl__skel--short" />
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="pl__more" data-pl-more hidden>
+      <button type="button" class="btn btn-ghost" data-pl-more-btn>Mostrar más canciones</button>
+    </div>
+
+    <div class="pl__empty" data-pl-missing hidden>
+      <h1>Esta playlist no está disponible</h1>
+      <p>
+        Puede que su dueño haya dejado de compartirla, que la haya borrado o que el enlace esté
+        incompleto.
+      </p>
+      <a href="/" class="btn btn-primary">Conocer Syncora</a>
+    </div>
+
+    <div class="pl__empty" data-pl-error hidden>
+      <h1>No pudimos cargar la playlist</h1>
+      <p>Revisa tu conexión e inténtalo de nuevo.</p>
+      <button type="button" class="btn btn-primary" data-pl-retry>Reintentar</button>
+    </div>
+  </section>
+
+  <dialog class="gate" data-gate-dialog aria-labelledby="gate-title">
+    <form method="dialog" class="gate__close-form">
+      <button class="gate__close" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6 6 18"></path></svg>
+      </button>
+    </form>
+    <Logo class="gate__logo" />
+    <h2 id="gate-title" class="gate__title">Escúchala en Syncora</h2>
+    <p class="gate__text">
+      Para reproducir esta playlist, guardarla en tu biblioteca o buscar más música, necesitas la app.
+      Es gratis y sin anuncios, para Android y Windows.
+    </p>
+    <div class="gate__actions">
+      <a class="btn btn-primary" data-open-app hidden>Abrir en la app</a>
+      <a class="btn btn-light" href="/#descargar" data-gate-download>Descargar Syncora</a>
+    </div>
+  </dialog>
+</Page>
+
+<script>
+  import { initSharedPlaylist } from '../scripts/shared-playlist';
+  initSharedPlaylist();
+</script>
+
+<style>
+  .pl {
+    padding-block: clamp(2rem, 6vw, 4.5rem) clamp(3rem, 8vw, 6rem);
+  }
+
+  .pl__head {
+    display: grid;
+    gap: 1.75rem;
+    align-items: end;
+  }
+
+  .pl__cover {
+    position: relative;
+    width: min(100%, 300px);
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--color-surface);
+    box-shadow: 0 30px 60px -30px oklch(0 0 0 / 0.9), 0 0 0 1px oklch(1 0 0 / 0.06) inset;
+  }
+
+  .pl__cover :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pl__cover :global(.pl__grid) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    height: 100%;
+  }
+
+  .pl__cover :global(.pl__note) {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--color-ink-3);
+  }
+
+  .pl__cover :global(.pl__note svg) {
+    width: 34%;
+    height: 34%;
+  }
+
+  .pl__eyebrow {
+    color: var(--color-indigo-soft);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .pl__title {
+    margin-top: 0.5rem;
+    font-size: clamp(2rem, 1.2rem + 4vw, 4.4rem);
+    font-stretch: 116%;
+    overflow-wrap: anywhere;
+  }
+
+  .pl__desc {
+    margin-top: 0.9rem;
+    max-width: 60ch;
+    color: var(--color-ink-2);
+    overflow-wrap: anywhere;
+  }
+
+  .pl__stats {
+    margin-top: 0.6rem;
+    color: var(--color-ink-3);
+    font-weight: 600;
+  }
+
+  .pl__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .pl__play {
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 999px;
+    background: var(--color-ink);
+    color: var(--color-night);
+    box-shadow: 0 0 24px oklch(1 0 0 / 0.18);
+    transition: transform 180ms var(--ease-out-quint);
+  }
+
+  .pl__play:active {
+    transform: scale(0.95);
+  }
+
+  .pl__play svg {
+    width: 26px;
+    height: 26px;
+    translate: 2px 0;
+  }
+
+  .pl__shuffle {
+    width: 52px;
+    padding: 0;
+  }
+
+  .pl__tracks {
+    display: grid;
+    gap: 2px;
+    margin-top: clamp(2rem, 5vw, 3rem);
+  }
+
+  .pl__tracks :global(.pl__row) {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.9rem;
+    width: 100%;
+    min-height: 64px;
+    padding: 6px 10px;
+    border-radius: 12px;
+    text-align: left;
+    transition: background-color 150ms var(--ease-out-quint);
+  }
+
+  .pl__tracks :global(button.pl__row:hover) {
+    background: oklch(1 0 0 / 0.05);
+  }
+
+  .pl__tracks :global(.pl__thumb) {
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+
+  .pl__tracks :global(.pl__thumb img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pl__tracks :global(.pl__text) {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .pl__tracks :global(.pl__name),
+  .pl__tracks :global(.pl__sub) {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .pl__tracks :global(.pl__name) {
+    font-weight: 700;
+  }
+
+  .pl__tracks :global(.pl__sub) {
+    color: var(--color-ink-3);
+    font-size: 0.95rem;
+  }
+
+  .pl__tracks :global(.pl__dur) {
+    color: var(--color-ink-3);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.95rem;
+  }
+
+  .pl__more {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .pl__empty {
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    max-width: 52ch;
+    padding-block: clamp(2rem, 8vw, 5rem);
+  }
+
+  .pl__empty h1 {
+    font-size: clamp(1.8rem, 1.2rem + 2.5vw, 3rem);
+  }
+
+  .pl__empty p {
+    color: var(--color-ink-2);
+  }
+
+  .pl[data-state='missing'] .pl__head,
+  .pl[data-state='missing'] .pl__tracks,
+  .pl[data-state='error'] .pl__head,
+  .pl[data-state='error'] .pl__tracks {
+    display: none;
+  }
+
+  .pl__skel {
+    display: block;
+    border-radius: 8px;
+    background: linear-gradient(90deg, var(--color-surface) 0%, var(--color-surface-2) 50%, var(--color-surface) 100%);
+    background-size: 200% 100%;
+    animation: skel 1.4s ease-in-out infinite;
+  }
+
+  .pl__skel--title {
+    width: min(70%, 420px);
+    height: 0.9em;
+  }
+
+  .pl__skel--line {
+    width: min(60%, 260px);
+    height: 0.9rem;
+  }
+
+  .pl__skel--short {
+    width: min(40%, 160px);
+    height: 0.8rem;
+  }
+
+  @keyframes skel {
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pl__skel {
+      animation: none;
+    }
+  }
+
+  .pl__tracks :global(.pl__album) {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .pl__head {
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+
+    .pl__tracks :global(.pl__row) {
+      grid-template-columns: 52px minmax(0, 1.4fr) minmax(0, 1fr) auto;
+    }
+
+    .pl__tracks :global(.pl__album) {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: var(--color-ink-3);
+      font-size: 0.95rem;
+    }
+  }
+
+
+  /* Aviso para descargar la app */
+  .gate {
+    width: min(100% - 32px, 440px);
+    margin: auto;
+    padding: 2rem 1.75rem 1.75rem;
+    border: 0;
+    border-radius: 24px;
+    background: var(--color-surface);
+    color: var(--color-ink);
+    box-shadow: 0 40px 80px -30px oklch(0 0 0 / 0.9), 0 0 0 1px oklch(1 0 0 / 0.08) inset;
+    text-align: center;
+  }
+
+  .gate::backdrop {
+    background: oklch(0.15 0.02 270 / 0.72);
+    backdrop-filter: blur(6px);
+  }
+
+  .gate[open] {
+    animation: gate-in 220ms var(--ease-out-quint);
+  }
+
+  @keyframes gate-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gate[open] {
+      animation: none;
+    }
+  }
+
+  .gate__close-form {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .gate__close {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    color: var(--color-ink-2);
+  }
+
+  .gate__close:hover {
+    background: oklch(1 0 0 / 0.06);
+  }
+
+  .gate__close svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  :global(.gate__logo) {
+    width: 56px;
+    height: 56px;
+    margin-inline: auto;
+  }
+
+  .gate__title {
+    margin-top: 1rem;
+    font-size: 1.7rem;
+  }
+
+  .gate__text {
+    margin-top: 0.75rem;
+    color: var(--color-ink-2);
+  }
+
+  .gate__actions {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+
+</style>

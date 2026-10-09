@@ -1,0 +1,190 @@
+---
+import Page from '../layouts/Page.astro';
+import { CONTACT_EMAIL, LEGAL_UPDATED, OWNER } from '../data/site';
+
+const mail = `mailto:${CONTACT_EMAIL}`;
+---
+
+<Page
+  title="Aviso de privacidad · Syncora Player"
+  description="Qué datos trata Syncora Player, para qué, con quién se comparten y cómo ejercer tus derechos."
+>
+  <article class="doc">
+    <h1>Aviso de privacidad</h1>
+    <p class="doc__meta">Última actualización: {LEGAL_UPDATED}</p>
+
+    <div class="doc__summary">
+      <p>
+        <strong>En corto:</strong> sin cuenta, nada sale de tu dispositivo. Con cuenta guardamos lo
+        necesario para sincronizar tu biblioteca entre dispositivos. No hay publicidad, no vendemos
+        datos y no usamos herramientas de rastreo.
+      </p>
+    </div>
+
+    <h2>1. Quién es responsable de tus datos</h2>
+    <p>
+      Syncora Player ("Syncora") es un proyecto personal, gratuito y sin fines de lucro. El
+      responsable del tratamiento de tus datos personales es <strong>{OWNER}</strong>, desarrollador de
+      Syncora, con residencia en México. Para cualquier asunto relacionado con este aviso puedes
+      escribir a <a href={mail}>{CONTACT_EMAIL}</a>.
+    </p>
+    <p>
+      Este aviso cubre la app Syncora Player para Android y Windows y este sitio web
+      (syncoraplayer.app), y se emite conforme a la Ley Federal de Protección de Datos Personales en
+      Posesión de los Particulares.
+    </p>
+
+    <h2>2. Qué datos tratamos</h2>
+    <h3>Si usas la app sin cuenta</h3>
+    <p>
+      Ninguno. Tu biblioteca, historial de escucha, descargas, ajustes e imágenes se guardan solo en
+      tu dispositivo y no se envían a Syncora.
+    </p>
+    <h3>Si creas una cuenta</h3>
+    <ul>
+      <li>
+        <strong>Datos de identificación:</strong> tu correo electrónico. Si entras con Google, Google
+        nos comparte tu correo, tu nombre y tu foto de perfil de Google; Syncora usa solo el correo
+        para identificar tu cuenta, y el nombre y la foto quedan guardados en el registro de inicio de
+        sesión sin mostrarse ni usarse para nada más. Si entras con correo y contraseña, la contraseña
+        se guarda cifrada por el servicio de autenticación y nadie puede leerla.
+      </li>
+      <li>
+        <strong>Tu biblioteca:</strong> playlists (nombre, descripción, portada y canciones), carpetas,
+        álbumes guardados y canciones que te gustan.
+      </li>
+      <li>
+        <strong>Historial de escucha:</strong> qué canciones escuchas, cuándo y por cuánto tiempo. El
+        detalle se borra a los 90 días; para las estadísticas de largo plazo se conserva un resumen
+        mensual (minutos totales y tus canciones, artistas y géneros más escuchados).
+      </li>
+      <li>
+        <strong>Imágenes que subes:</strong> portadas de playlists y foto de perfil. Antes de salir de tu
+        dispositivo se recortan y se vuelven a codificar, lo que elimina sus metadatos (ubicación,
+        cámara, fecha).
+      </li>
+      <li>
+        <strong>Uso de las funciones de IA:</strong> solo cuántas peticiones haces, para aplicar el
+        límite de uso. El texto que escribes se envía a Gemini para responder y no se guarda.
+      </li>
+    </ul>
+    <p>
+      Syncora no trata datos personales sensibles ni datos financieros.
+    </p>
+
+    <h2>3. Para qué los usamos</h2>
+    <p>Todos los datos se usan únicamente para que el servicio funcione:</p>
+    <ul>
+      <li>Crear tu cuenta e iniciar sesión.</li>
+      <li>Guardar tu biblioteca y sincronizarla entre tus dispositivos.</li>
+      <li>Mostrarte tus estadísticas de escucha.</li>
+      <li>Responder a las funciones de IA que uses y aplicar sus límites.</li>
+      <li>Mostrar las playlists que decidas compartir.</li>
+    </ul>
+    <p>
+      No hay finalidades secundarias: no usamos tus datos para publicidad, mercadotecnia, perfiles
+      comerciales ni los vendemos. Por eso no hace falta que te opongas a ninguna; si aun así quieres
+      dejar de compartir datos, puedes borrar tu cuenta (sección 7).
+    </p>
+
+    <h2>4. Datos de Google</h2>
+    <p>
+      Cuando inicias sesión con Google, Syncora solo pide los permisos básicos de identidad (correo,
+      nombre y foto de perfil). No accede a tu Gmail, contactos, archivos, YouTube ni a ningún otro
+      dato de tu cuenta de Google. El uso y la transferencia de la información recibida de las API de
+      Google se apegan a la
+      <a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener"
+        >Política de Datos del Usuario de los Servicios de API de Google</a
+      >, incluidos los requisitos de uso limitado.
+    </p>
+
+    <h2>5. Con quién se comparten</h2>
+    <p>
+      Syncora no transfiere tus datos a terceros para sus propios fines. Para funcionar, se apoya en
+      proveedores que los tratan solo por cuenta de Syncora, en servidores que pueden estar fuera de
+      México:
+    </p>
+    <ul>
+      <li><strong>Supabase:</strong> base de datos, inicio de sesión y servidor de la app.</li>
+      <li><strong>Cloudflare:</strong> almacenamiento de las imágenes que subes y alojamiento de este sitio.</li>
+      <li><strong>Google:</strong> inicio de sesión con Google y, si usas la IA, el modelo Gemini.</li>
+    </ul>
+    <p>
+      Además, la app consulta directamente desde tu dispositivo a servicios públicos que reciben tu
+      dirección IP y la búsqueda que haces, pero ningún dato de tu cuenta: Deezer (catálogo de
+      canciones), YouTube (audio), LRCLib (letras; recibe el título, el artista y la duración de la
+      canción) y DiceBear (avatar; recibe una semilla aleatoria). Cada servicio tiene sus propias
+      políticas de privacidad.
+    </p>
+    <p>
+      Podemos revelar datos si una autoridad competente lo exige conforme a la ley.
+    </p>
+
+    <h2>6. Playlists compartidas</h2>
+    <p>
+      Al compartir una playlist, la app te pide confirmación y la vuelve pública: cualquiera con el
+      enlace puede ver su nombre, descripción, portada y canciones en este sitio, y otros usuarios de
+      Syncora pueden guardarla en su biblioteca (solo para verla y escucharla, sin modificarla). La
+      playlist compartida no muestra tu correo ni tu nombre. Puedes dejar de compartirla en cualquier
+      momento desde su menú.
+    </p>
+
+    <h2>7. Tus derechos (ARCO) y cómo ejercerlos</h2>
+    <p>
+      Tienes derecho a <strong>acceder</strong> a tus datos, <strong>rectificarlos</strong>,
+      <strong>cancelarlos</strong> y <strong>oponerte</strong> a su tratamiento, así como a revocar tu
+      consentimiento. Muchos los puedes ejercer tú mismo desde la app:
+    </p>
+    <ul>
+      <li>Ver y editar tu biblioteca en cualquier momento.</li>
+      <li>Exportar cualquier playlist a CSV desde su menú.</li>
+      <li>
+        Eliminar tu cuenta desde Configuración: se borran de forma permanente tu cuenta y todos los
+        datos asociados en la nube, incluidas las imágenes que subiste.
+      </li>
+    </ul>
+    <p>
+      Para cualquier otra solicitud escribe a <a href={mail}>{CONTACT_EMAIL}</a> desde el correo de tu
+      cuenta, indicando qué derecho quieres ejercer y sobre qué datos. Te responderemos en un plazo
+      máximo de 20 días hábiles y, si procede, la solicitud se hará efectiva dentro de los 15 días
+      hábiles siguientes. Si consideras que tu derecho no fue atendido, puedes acudir a la autoridad
+      competente en materia de protección de datos personales.
+    </p>
+
+    <h2>8. Cuánto tiempo se conservan</h2>
+    <ul>
+      <li>Datos de la cuenta y biblioteca: mientras tengas la cuenta.</li>
+      <li>Historial detallado de escucha: 90 días.</li>
+      <li>Resúmenes mensuales de estadísticas: mientras tengas la cuenta.</li>
+      <li>Imágenes: al cambiarlas o quitarlas, la anterior se borra.</li>
+      <li>Al eliminar la cuenta se borra todo lo anterior.</li>
+    </ul>
+
+    <h2>9. Seguridad</h2>
+    <p>
+      Las comunicaciones viajan cifradas (HTTPS) y la base de datos solo deja a cada usuario leer y
+      modificar sus propios datos (salvo las playlists que decide compartir). Ningún sistema es
+      infalible, pero aplicamos medidas razonables para proteger tu información.
+    </p>
+
+    <h2>10. Este sitio web</h2>
+    <p>
+      syncoraplayer.app no usa cookies ni rastreadores. Para saber cuántas visitas recibe usa Cloudflare
+      Web Analytics, que cuenta visitas de forma agregada sin cookies y sin identificarte. Como
+      cualquier sitio, Cloudflare procesa tu dirección IP para entregarte la página. Al abrir una
+      playlist compartida, tu navegador la pide directamente a Supabase.
+    </p>
+
+    <h2>11. Menores de edad</h2>
+    <p>
+      Syncora no está dirigida a menores de 13 años. Si eres menor de edad, usa la app con el permiso
+      de tu madre, padre o tutor.
+    </p>
+
+    <h2>12. Cambios a este aviso</h2>
+    <p>
+      Si este aviso cambia, publicaremos la nueva versión en esta misma página con su fecha de
+      actualización. Si el cambio es importante, también lo avisaremos dentro de la app.
+    </p>
+  </article>
+</Page>

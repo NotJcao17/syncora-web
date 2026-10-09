@@ -1,0 +1,69 @@
+---
+/**
+ * Páginas fuera de la portada (privacidad, términos, playlist compartida).
+ * Barra fija y sencilla: sin las anclas de la portada ni su movimiento.
+ */
+import Base from './Base.astro';
+import Logo from '../components/Logo.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title, description, noindex } = Astro.props;
+---
+
+<Base title={title} description={description} noindex={noindex}>
+  <header class="sub-nav">
+    <div class="wrap sub-nav__row">
+      <a href="/" class="sub-nav__brand" aria-label="Syncora Player, ir a la portada">
+        <Logo class="size-8" />
+        <span>Syncora Player</span>
+      </a>
+      <a href="/#descargar" class="btn btn-light sub-nav__cta">Descargar</a>
+    </div>
+  </header>
+  <main id="contenido">
+    <slot />
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .sub-nav {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-nav);
+    padding-top: env(safe-area-inset-top);
+    background: oklch(0.228 0.022 269.1 / 0.86);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    box-shadow: 0 1px 0 oklch(1 0 0 / 0.06);
+  }
+
+  .sub-nav__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: 68px;
+  }
+
+  .sub-nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    font-stretch: 115%;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .sub-nav__cta {
+    min-height: 44px;
+    padding: 0.7rem 1.2rem;
+  }
+</style>

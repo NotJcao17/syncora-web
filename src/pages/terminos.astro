@@ -1,0 +1,110 @@
+---
+import Page from '../layouts/Page.astro';
+import { CONTACT_EMAIL, LEGAL_UPDATED, REPO_URL } from '../data/site';
+
+const mail = `mailto:${CONTACT_EMAIL}`;
+---
+
+<Page
+  title="Términos y aviso legal · Syncora Player"
+  description="Condiciones de uso de Syncora Player y aviso sobre el contenido de terceros."
+>
+  <article class="doc">
+    <h1>Términos y aviso legal</h1>
+    <p class="doc__meta">Última actualización: {LEGAL_UPDATED}</p>
+
+    <p>
+      Al descargar o usar Syncora Player ("Syncora") aceptas estos términos. Si no estás de acuerdo,
+      no uses la app.
+    </p>
+
+    <h2>1. Qué es Syncora</h2>
+    <p>
+      Syncora es un reproductor de música gratuito y de código abierto
+      (<a href={REPO_URL} rel="noopener">licencia GPL-3.0</a>), hecho como proyecto personal y sin fines
+      de lucro. No tiene publicidad, suscripciones ni compras.
+    </p>
+
+    <h2>2. Contenido de terceros</h2>
+    <div class="doc__summary">
+      <p>
+        <strong>Syncora no aloja, no posee y no distribuye música ni ningún otro contenido protegido
+        por derechos de autor.</strong> La app funciona como un cliente que accede a contenido
+        publicado por terceros: los datos de canciones, álbumes y artistas vienen del catálogo público
+        de Deezer, las letras de LRCLib y el audio se obtiene de YouTube desde el dispositivo de cada
+        usuario, en el momento de reproducir o descargar.
+      </p>
+      <p>
+        Todas las canciones, grabaciones, portadas, letras, marcas y demás contenido pertenecen a sus
+        respectivos titulares y están protegidos por las leyes de derechos de autor aplicables.
+        Syncora no está afiliada, asociada ni respaldada por Deezer, YouTube, Google, Spotify ni
+        ningún otro servicio mencionado.
+      </p>
+      <p>
+        Syncora no fomenta ni respalda la infracción de derechos de autor. Las descargas son para
+        escuchar sin conexión dentro de la app, para uso personal y no comercial.
+      </p>
+    </div>
+
+    <h2>3. Tu responsabilidad</h2>
+    <ul>
+      <li>
+        Eres el único responsable de que tu uso de Syncora cumpla con las leyes de tu país, las normas
+        de derechos de autor y los términos de servicio de las plataformas de las que se obtiene el
+        contenido.
+      </li>
+      <li>
+        No uses Syncora para redistribuir, vender, publicar o hacer cualquier uso comercial del
+        contenido que reproduces o descargas.
+      </li>
+      <li>
+        Eres responsable de lo que subes y compartes (nombres, descripciones e imágenes de tus
+        playlists y tu foto de perfil): no subas contenido que no tengas derecho a usar, ni contenido
+        ofensivo, violento, sexual o ilegal. Podemos quitar contenido compartido que incumpla esto.
+      </li>
+      <li>
+        No intentes saturar, vulnerar o usar de forma abusiva los servidores de Syncora ni sus
+        funciones de IA.
+      </li>
+    </ul>
+
+    <h2>4. Cuentas</h2>
+    <p>
+      La cuenta es opcional y gratuita. Como Syncora se sostiene en planes gratuitos, el número de
+      cuentas con nube es limitado; la app siempre se puede usar sin cuenta. Puedes eliminar tu cuenta
+      en cualquier momento desde Configuración. Podemos suspender cuentas que incumplan estos términos.
+      El tratamiento de tus datos se describe en el <a href="/privacidad">aviso de privacidad</a>.
+    </p>
+
+    <h2>5. Sin garantías</h2>
+    <p>
+      Syncora se ofrece "tal cual" y "según disponibilidad", sin garantías de ningún tipo. Varias
+      funciones dependen de servicios de terceros que pueden cambiar, limitarse o dejar de funcionar en
+      cualquier momento, y la app puede cambiar o dejar de estar disponible sin previo aviso.
+    </p>
+
+    <h2>6. Limitación de responsabilidad</h2>
+    <p>
+      En la medida en que la ley lo permita, ni el desarrollador ni los colaboradores de Syncora son
+      responsables por daños derivados del uso o de la imposibilidad de usar la app, por pérdida de
+      datos, ni por el uso indebido que alguien haga de la app o de su código.
+    </p>
+
+    <h2>7. Reclamaciones de derechos de autor</h2>
+    <p>
+      Syncora no guarda copias del contenido de terceros en sus servidores. Si eres titular de
+      derechos y crees que algo relacionado con Syncora (por ejemplo, una imagen subida a una playlist
+      compartida) infringe tus derechos, escribe a <a href={mail}>{CONTACT_EMAIL}</a> identificando el
+      contenido y tus derechos sobre él, y lo revisaremos a la brevedad.
+    </p>
+
+    <h2>8. Cambios y ley aplicable</h2>
+    <p>
+      Podemos actualizar estos términos; la versión vigente es la publicada en esta página. Estos
+      términos se rigen por las leyes de México.
+    </p>
+
+    <h2>9. Contacto</h2>
+    <p><a href={mail}>{CONTACT_EMAIL}</a></p>
+  </article>
+</Page>

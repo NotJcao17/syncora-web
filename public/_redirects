@@ -1,0 +1,3 @@
+# Enlaces que copia la app (`https://syncoraplayer.app/playlist/<id>`): todos
+# se sirven con la misma página, que lee el id de la dirección.
+/playlist/:id  /playlist/  200
