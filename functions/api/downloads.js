@@ -53,16 +53,31 @@ function badge(message, color = '6366F1') {
 export async function onRequestGet({ request, env, waitUntil }) {
   const cache = typeof caches !== 'undefined' ? caches.default : null;
   const key = new Request(new URL('/api/downloads', request.url).toString());
+  // Último número bueno, para no mostrar "n/a" si GitHub falla (el límite
+  // anónimo es por IP y las de salida de Cloudflare se comparten).
+  const lastGoodKey = new Request(new URL('/api/downloads/last-good', request.url).toString());
+
   const cached = cache ? await cache.match(key) : null;
   if (cached) return cached;
 
   try {
     const total = await countDownloads(fetch, env.GITHUB_TOKEN);
-    const response = badge(new Intl.NumberFormat('en-US').format(total));
-    if (cache) waitUntil(cache.put(key, response.clone()));
+    const message = new Intl.NumberFormat('en-US').format(total);
+    const response = badge(message);
+    if (cache) {
+      waitUntil(cache.put(key, response.clone()));
+      waitUntil(
+        cache.put(
+          lastGoodKey,
+          new Response(message, { headers: { 'Cache-Control': 'public, max-age=2592000' } }),
+        ),
+      );
+    }
     return response;
   } catch {
-    // Sin guardar en caché: el siguiente intento vuelve a preguntar.
-    return badge('n/a', 'lightgrey');
+    // No se guarda en la caché de una hora: el siguiente intento vuelve a
+    // preguntar a GitHub. Mientras, el último número conocido.
+    const lastGood = cache ? await cache.match(lastGoodKey) : null;
+    return lastGood ? badge(await lastGood.text()) : badge('n/a', 'lightgrey');
   }
 }
