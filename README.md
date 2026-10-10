@@ -91,6 +91,14 @@ Todo lo que viene de la base lo escribió un usuario: se pinta con `textContent`
 - Las vistas de playlists compartidas y `/og` llevan `noindex`.
 - `public/_headers`: cabeceras de seguridad y caché larga para `/_astro/*`.
 
+## Contador de descargas
+
+`functions/api/downloads.js` (Cloudflare Pages Function) suma las descargas de `Syncora.apk` y
+`SyncoraSetup.exe` de todos los releases que no son pre-release (deja fuera el canal del motor) y
+responde en el formato de los badges *endpoint* de shields.io. Lo usa el README de la app:
+`https://img.shields.io/endpoint?url=https://syncoraplayer.app/api/downloads`. Variable de entorno
+opcional `GITHUB_TOKEN` en el proyecto de Pages (token fine-grained, solo lectura de repos públicos).
+
 ## Desplegar en Cloudflare Pages
 
 1. Sube este repo a GitHub.
