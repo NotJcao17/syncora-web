@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# Fuente de la imagen para redes, no es una página.
+Disallow: /og
+
+Sitemap: https://syncoraplayer.app/sitemap.xml

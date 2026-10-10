@@ -13,9 +13,53 @@ import Download from '../components/Download.astro';
 import Faq from '../components/Faq.astro';
 import Footer from '../components/Footer.astro';
 import MiniPlayer from '../components/MiniPlayer.astro';
+import { CONTACT_EMAIL, DOWNLOADS, OWNER, REPO_URL, SITE } from '../data/site';
+
+// Datos estructurados (schema.org). `WebSite.name` es lo que Google usa como
+// nombre del sitio en los resultados, y `Organization.logo` ayuda a que
+// relacione el logo con la marca.
+const home = new URL('/', Astro.site).href;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${home}#website`,
+      url: home,
+      name: SITE.name,
+      alternateName: ['Syncora'],
+      inLanguage: 'es-MX',
+      publisher: { '@id': `${home}#org` },
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${home}#org`,
+      name: SITE.name,
+      url: home,
+      logo: new URL('/icon-512.png', Astro.site).href,
+      email: CONTACT_EMAIL,
+      sameAs: [REPO_URL],
+    },
+    {
+      '@type': 'SoftwareApplication',
+      name: SITE.name,
+      url: home,
+      description: SITE.description,
+      applicationCategory: 'MultimediaApplication',
+      operatingSystem: 'Android 7.0 o superior, Windows 10, Windows 11',
+      image: new URL('/og.png', Astro.site).href,
+      downloadUrl: [DOWNLOADS.android.url, DOWNLOADS.windows.url],
+      isAccessibleForFree: true,
+      license: 'https://www.gnu.org/licenses/gpl-3.0.html',
+      author: { '@type': 'Person', name: OWNER },
+      publisher: { '@id': `${home}#org` },
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'MXN' },
+    },
+  ],
+};
 ---
 
-<Base>
+<Base structuredData={structuredData}>
   <Intro />
   <Nav />
   <main id="contenido">

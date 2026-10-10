@@ -76,6 +76,21 @@ Reproducir, guardar o aleatorio abren un aviso con "Abrir en la app" (`intent://
 
 Todo lo que viene de la base lo escribió un usuario: se pinta con `textContent`, nunca como HTML.
 
+## SEO
+
+- `src/pages/sitemap.xml.ts`: sitemap estático con las páginas indexables (portada, privacidad,
+  términos). Si se agrega una página pública, sumarla ahí.
+- `public/robots.txt`: todo permitido salvo `/og`; apunta al sitemap.
+- `src/pages/404.astro`: Cloudflare Pages lo sirve con estado 404. Sin él, cualquier ruta inexistente
+  devolvía la portada con 200 ("soft 404").
+- Íconos: `favicon.ico` (16/32/48), `favicon-96.png`, `favicon.svg`, `apple-touch-icon.png` e
+  `icon-*.png` del `manifest.webmanifest`. Google usa el ícono del sitio en sus resultados (cuadrado,
+  48 px o más). Se generan desde `favicon.svg`.
+- Datos estructurados (JSON-LD) en `index.astro`: `WebSite` (nombre del sitio en Google),
+  `Organization` (logo) y `SoftwareApplication`.
+- Las vistas de playlists compartidas y `/og` llevan `noindex`.
+- `public/_headers`: cabeceras de seguridad y caché larga para `/_astro/*`.
+
 ## Desplegar en Cloudflare Pages
 
 1. Sube este repo a GitHub.
