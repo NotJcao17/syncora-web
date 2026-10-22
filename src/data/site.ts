@@ -24,7 +24,7 @@ export const DOWNLOADS = {
   },
 } as const;
 
-export const FALLBACK_VERSION = '1.1.0';
+export const FALLBACK_VERSION = '1.2.0';
 
 /** Responsable de los datos (aviso de privacidad) y medio de contacto. */
 export const OWNER = 'Juan Carlos Orozco';
