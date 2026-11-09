@@ -59,44 +59,14 @@ app, and a small API that powers the download counter badge in the app's README.
 
 ---
 
-## ✨ Features
+## ✨ What's in it
 
-### The landing page
-- 🎬 **Intro and hero** with the logo drawn from the app icon, giant type and a tilted phone that
-  plays the real "Now playing" screen.
-- 📱 **App tour**: the phone stays pinned while the text scrolls past, switching between home,
-  library, a downloaded playlist and the endless queue.
-- 🎤 **Synced lyrics** section that follows the song as you scroll.
-- ✨ **AI section** with a prompt that types itself, next to the real "Edit playlist with AI" sheet.
-- 🧩 **Feature rail**: vertical scroll moves a horizontal rail with Discover, crossfade, playlist
-  imports, offline downloads and the sleep timer (it falls back to a swipeable rail without motion).
-- 🔥 **Wrapped**: the only warm scene on the page, fanning out the real shareable story cards.
-- 💻 **Windows app** shown in a desktop window frame, with library sync between phone and PC.
-- 🎵 **Mini player** fixed at the bottom that "plays" the page: its progress bar follows the scroll
-  and its subtitle names the current section.
-- ❓ FAQ: is it really free, do I need an account, where does the music come from, is there an
-  iPhone or Mac version, what happens with my data.
-
-### Downloads that never go stale
-- 🤖 **OS detection**: the main button offers the APK on Android and the installer on Windows.
-- 🔗 Buttons link to `releases/latest/download/<file>`, so publishing a new app version **does not
-  require touching the website** as long as the files keep their names (`Syncora.apk`,
-  `SyncoraSetup.exe`).
-- 🏷️ Version, size and date are read from the GitHub API in the browser, with a fallback version in
-  `src/data/site.ts` when there is no release yet.
-- 🪜 A three-step install guide for each platform.
-
-### Beyond the landing page
-- 🔗 **Shared playlists** (`/playlist/<id>`): a read-only view of a playlist shared from the app,
-  loaded from Supabase over REST. Play, save and shuffle open an "Open in the app" prompt
-  (`intent://` on Android, `syncoraplayer://` on Windows) plus the download.
-- 📊 **Download counter API** (`/api/downloads`): a Cloudflare Pages Function that adds up the APK
-  and installer downloads of every non-prerelease and answers in the shields.io *endpoint* format.
-- ⚖️ **Privacy notice** (Mexican LFPDPPP) and **terms of use** with the content disclaimer.
-- 🔍 **SEO**: sitemap, robots, a real 404, JSON-LD (`WebSite`, `Organization`,
-  `SoftwareApplication`), favicons and web manifest, and a generated Open Graph image.
-- ⚡ **Performance**: static output, AVIF/WebP images in several widths, long cache for
-  `/_astro/*`, security headers, and Cloudflare Web Analytics (no cookies).
+- 🏠 **Landing page**: a scroll-driven tour of the real app (screenshots from Android demo mode).
+- 📥 **Downloads that never go stale**: buttons point to the latest GitHub release and detect
+  Android or Windows, so a new app version needs no change here.
+- 🔗 **Shared playlists** (`/playlist/<id>`): read-only view of a playlist shared from the app.
+- 📊 **Download counter API** (`/api/downloads`) for the badge in the app's README.
+- ⚖️ Privacy notice, terms of use, SEO and Open Graph image.
 
 ---
 
