@@ -1,109 +1,213 @@
-# Syncora · web
+<div align="center">
 
-Página promocional de [Syncora Player](https://github.com/NotJcao17/syncora-player).
-Astro 7 (estático) + Tailwind 4 + GSAP/ScrollTrigger + Lenis. Pensada para Cloudflare Pages.
+<img src="public/icon-192.png" width="88" alt="Syncora logo">
 
-## Comandos
+# Syncora · Website
+
+**The landing page of [Syncora Player](https://github.com/NotJcao17/syncora-player), a free music player for Android and Windows.**
+
+*Show the real app, explain what makes it different, and get people from a shared link to an installed APK in under a minute.*
+
+<a href="https://syncoraplayer.app"><img src="https://img.shields.io/badge/Live-syncoraplayer.app-6366F1?style=for-the-badge" alt="Live site: syncoraplayer.app"></a>
+<a href="https://github.com/NotJcao17/syncora-player"><img src="https://img.shields.io/badge/App-Syncora%20Player-181C27?style=for-the-badge&logo=github&logoColor=white" alt="Syncora Player repository"></a>
+
+[![Astro](https://img.shields.io/badge/Astro-7-FF5D01?logo=astro&logoColor=white)](https://astro.build)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![GSAP](https://img.shields.io/badge/GSAP-ScrollTrigger-88CE02?logo=greensock&logoColor=white)](https://gsap.com)
+[![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com)
+
+<br>
+
+<img src="docs/screenshots/hero.webp" width="820" alt="Hero section of syncoraplayer.app">
+
+</div>
+
+---
+
+## What is this?
+
+This repository is the promotional website for **Syncora Player**. It is a static Astro site with
+scroll-driven animation, built for people who arrive from a phone, usually through a shared link,
+with a few seconds of attention. Every claim on the page is backed by a real screenshot of the app
+running in Android demo mode, and every download button points to the latest GitHub release.
+
+The site is in **Spanish** (its audience is mostly Mexico and Latin America). Besides the landing
+page it serves the privacy notice, the terms of use, a read-only view for playlists shared from the
+app, and a small API that powers the download counter badge in the app's README.
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+<img src="docs/screenshots/tour.webp" width="410" alt="App tour: the home screen">&nbsp;
+<img src="docs/screenshots/ai.webp" width="410" alt="AI playlists section">
+
+<img src="docs/screenshots/wrapped.webp" width="410" alt="Wrapped section with the shareable story cards">&nbsp;
+<img src="docs/screenshots/desktop.webp" width="410" alt="Windows app section">
+
+<img src="docs/screenshots/download.webp" width="820" alt="Download section with Android and Windows panels">
+
+<br><br>
+
+<img src="docs/screenshots/mobile-hero.webp" height="420" alt="Hero on a phone">&nbsp;
+<img src="docs/screenshots/mobile-ai.webp" height="420" alt="AI section on a phone">&nbsp;
+<img src="docs/screenshots/mobile-download.webp" height="420" alt="Download section on a phone">
+
+</div>
+
+---
+
+## ✨ Features
+
+### The landing page
+- 🎬 **Intro and hero** with the logo drawn from the app icon, giant type and a tilted phone that
+  plays the real "Now playing" screen.
+- 📱 **App tour**: the phone stays pinned while the text scrolls past, switching between home,
+  library, a downloaded playlist and the endless queue.
+- 🎤 **Synced lyrics** section that follows the song as you scroll.
+- ✨ **AI section** with a prompt that types itself, next to the real "Edit playlist with AI" sheet.
+- 🧩 **Feature rail**: vertical scroll moves a horizontal rail with Discover, crossfade, playlist
+  imports, offline downloads and the sleep timer (it falls back to a swipeable rail without motion).
+- 🔥 **Wrapped**: the only warm scene on the page, fanning out the real shareable story cards.
+- 💻 **Windows app** shown in a desktop window frame, with library sync between phone and PC.
+- 🎵 **Mini player** fixed at the bottom that "plays" the page: its progress bar follows the scroll
+  and its subtitle names the current section.
+- ❓ FAQ: is it really free, do I need an account, where does the music come from, is there an
+  iPhone or Mac version, what happens with my data.
+
+### Downloads that never go stale
+- 🤖 **OS detection**: the main button offers the APK on Android and the installer on Windows.
+- 🔗 Buttons link to `releases/latest/download/<file>`, so publishing a new app version **does not
+  require touching the website** as long as the files keep their names (`Syncora.apk`,
+  `SyncoraSetup.exe`).
+- 🏷️ Version, size and date are read from the GitHub API in the browser, with a fallback version in
+  `src/data/site.ts` when there is no release yet.
+- 🪜 A three-step install guide for each platform.
+
+### Beyond the landing page
+- 🔗 **Shared playlists** (`/playlist/<id>`): a read-only view of a playlist shared from the app,
+  loaded from Supabase over REST. Play, save and shuffle open an "Open in the app" prompt
+  (`intent://` on Android, `syncoraplayer://` on Windows) plus the download.
+- 📊 **Download counter API** (`/api/downloads`): a Cloudflare Pages Function that adds up the APK
+  and installer downloads of every non-prerelease and answers in the shields.io *endpoint* format.
+- ⚖️ **Privacy notice** (Mexican LFPDPPP) and **terms of use** with the content disclaimer.
+- 🔍 **SEO**: sitemap, robots, a real 404, JSON-LD (`WebSite`, `Organization`,
+  `SoftwareApplication`), favicons and web manifest, and a generated Open Graph image.
+- ⚡ **Performance**: static output, AVIF/WebP images in several widths, long cache for
+  `/_astro/*`, security headers, and Cloudflare Web Analytics (no cookies).
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+| :--- | :--- |
+| **Framework** | [Astro 7](https://astro.build) (static output) with React islands |
+| **Styling** | Tailwind CSS 4, OKLCH color tokens, Archivo variable font |
+| **Motion** | GSAP + ScrollTrigger, Lenis smooth scroll |
+| **Images** | Astro image pipeline (`sharp`): AVIF and WebP at several widths |
+| **Hosting** | Cloudflare Pages + Pages Functions |
+| **Data** | GitHub Releases API (version and size), Supabase REST (shared playlists) |
+| **Tooling** | TypeScript, `playwright-core` scripts for visual review and the OG image |
+
+---
+
+## 🏗️ Project Structure
+
+| Path | What it is |
+| :--- | :--- |
+| `src/pages/index.astro` | The page: the order of the sections |
+| `src/components/` | One section per file, plus `Phone` (Android frame), `Logo` and `DownloadButton` |
+| `src/scripts/motion.ts` | All the motion: intro, hero, per-section scroll, mini player |
+| `src/scripts/download.ts` | Detects Android/Windows and reads the latest version from GitHub |
+| `src/data/site.ts` | Repo, download file names, requirements, SEO copy, legal date and contact |
+| `src/data/logo.ts` | Logo vectorized from the app icon (clef and rings as separate paths) |
+| `src/assets/screens/` | Real app screenshots (Android demo mode) |
+| `src/pages/og.astro` | Source of `public/og.png` (not indexed) |
+| `src/pages/privacidad.astro`, `terminos.astro` | Privacy notice and terms of use |
+| `src/pages/playlist.astro` + `src/scripts/shared-playlist.ts` | Read-only view of a shared playlist |
+| `functions/api/downloads.js` | Download counter for the shields.io badge |
+| `public/_redirects` | Rewrites `/playlist/<id>` to the playlist page (Cloudflare Pages) |
+| `public/_headers` | Security headers and long cache for `/_astro/*` |
+| `PRODUCT.md`, `DESIGN.md` | Who the page is for and its visual system |
+
+---
+
+## 🚀 Getting Started
 
 ```bash
+git clone https://github.com/NotJcao17/syncora-web.git
+cd syncora-web
 npm install
 npm run dev        # http://localhost:4321
-npm run build      # genera dist/
-npm run preview    # sirve dist/ para revisarlo
-npm run check      # tipos (usa TypeScript 6: astro check no soporta la 7)
 ```
 
-## Estructura
+| Command | What it does |
+| :--- | :--- |
+| `npm run dev` | Development server |
+| `npm run build` | Builds the static site into `dist/` |
+| `npm run preview` | Serves `dist/` to check the build |
+| `npm run check` | Type check (uses TypeScript 6: `astro check` does not support 7 yet) |
 
-| Ruta | Qué es |
-|---|---|
-| `src/pages/index.astro` | La página: orden de las secciones |
-| `src/components/` | Una sección por archivo, más `Phone` (marco Android), `Logo` y `DownloadButton` |
-| `src/scripts/motion.ts` | Todo el movimiento: intro, hero, scroll de cada sección, mini reproductor |
-| `src/scripts/download.ts` | Detecta Android/Windows y lee la última versión de GitHub |
-| `src/data/site.ts` | Repo, nombres de archivo de descarga, requisitos, textos SEO |
-| `src/data/logo.ts` | Logo vectorizado desde el ícono de la app (clave y anillos por separado) |
-| `src/assets/screens/` | Capturas reales de la app (modo demo de Android) |
-| `src/pages/og.astro` | Fuente de `public/og.png` (no se indexa) |
-| `src/pages/privacidad.astro`, `terminos.astro` | Aviso de privacidad (LFPDPPP) y términos con el descargo de contenido. Fecha y contacto en `src/data/site.ts` |
-| `src/pages/playlist.astro` + `src/scripts/shared-playlist.ts` | Vista de solo lectura de una playlist compartida desde la app |
-| `public/_redirects` | Reescribe `/playlist/<id>` a la página de playlist (Cloudflare Pages) |
-| `PRODUCT.md`, `DESIGN.md` | Para quién es la página y su sistema visual |
+### Replacing screenshots
 
-## Descargas
+1. Take the screenshot on the phone with Android demo mode on.
+2. Replace the file in `src/assets/screens/`, keeping the same name.
+3. The Wrapped cards are cropped from the full screen: see `wrapped-*.png`.
 
-Los botones apuntan a `https://github.com/NotJcao17/syncora-player/releases/latest/download/<archivo>`:
-GitHub siempre redirige al archivo de la última versión. Mientras los nombres sean
-**`Syncora.apk`** y **`SyncoraSetup.exe`**, publicar una versión nueva no requiere tocar la web.
-La versión, el tamaño y la fecha se leen en el navegador de la API de GitHub; si todavía no hay
-ningún release, se muestra la versión de respaldo de `src/data/site.ts`.
+Astro generates AVIF and WebP at several widths at build time.
 
-## Cambiar capturas
+### Social image and visual review
 
-1. Saca la captura (en el móvil, con el modo demo de Android).
-2. Reemplaza el archivo en `src/assets/screens/` con el mismo nombre.
-3. Las tarjetas del Wrapped se recortan de la pantalla completa: ver `wrapped-*.png`.
-
-Astro genera AVIF y WebP en varios anchos al compilar.
-
-## Imagen para redes
-
-Con `npm run dev` encendido:
+With `npm run dev` running:
 
 ```bash
-node scripts/og.mjs
+node scripts/og.mjs                       # regenerates public/og.png
+node scripts/shoot.mjs desktop capturas   # screenshots of every section (desktop)
+node scripts/shoot.mjs mobile capturas    # same on a phone viewport
 ```
 
-## Revisión visual
+`shoot.mjs` uses the installed Chrome through `playwright-core`, so it does not download browsers.
 
-`scripts/shoot.mjs` captura la página por secciones en escritorio y móvil con el Chrome
-instalado (`playwright-core`, no descarga navegadores):
+### Shared playlists
 
-```bash
-node scripts/shoot.mjs desktop capturas
-node scripts/shoot.mjs mobile capturas
+The app copies `https://syncoraplayer.app/playlist/<id>` links and marks the playlist as public. The
+page reads it from Supabase over REST with the `anon` key (public by design); row-level security
+only returns playlists with `is_public = true`, so a private or deleted one shows as "not
+available". Songs load 100 per page. Everything that comes from the database was written by a user,
+so it is rendered with `textContent`, never as HTML.
+
+`npm run dev` does not apply `_redirects`: to test locally use `/playlist/?id=<uuid>`.
+
+### Download counter
+
+`functions/api/downloads.js` sums the downloads of `Syncora.apk` and `SyncoraSetup.exe` across every
+release that is not a prerelease (that leaves out the extraction engine channel) and is used by the
+app's README:
+
+```
+https://img.shields.io/endpoint?url=https://syncoraplayer.app/api/downloads
 ```
 
-## Playlists compartidas
+An optional `GITHUB_TOKEN` environment variable (fine-grained, read-only access to public repos) can
+be set on the Pages project to avoid rate limits.
 
-La app copia enlaces `https://syncoraplayer.app/playlist/<id>` y marca la playlist como pública.
-La página pide la playlist a Supabase por REST con la llave `anon` (pública por diseño); el RLS solo
-devuelve playlists con `is_public = true`, así que una privada o borrada se ve como "no disponible".
-Reproducir, guardar o aleatorio abren un aviso con "Abrir en la app" (`intent://` en Android,
-`syncoraplayer://` en Windows) y la descarga. Se cargan 100 canciones por página.
+---
 
-`npm run dev` no aplica `_redirects`: para probar en local usa `/playlist/?id=<uuid>`.
+## ☁️ Deploying to Cloudflare Pages
 
-Todo lo que viene de la base lo escribió un usuario: se pinta con `textContent`, nunca como HTML.
+1. Cloudflare → Workers & Pages → Create → Pages → connect this repository.
+2. Framework preset: **Astro**. Build command: `npm run build`. Output directory: `dist`.
+3. Environment variable `NODE_VERSION` = `22` (or whatever you use locally).
+4. The domain (`syncoraplayer.app`) is already set as `site` in `astro.config.mjs`.
+5. Turn on Web Analytics from the Pages project (cookieless, no code needed).
 
-## SEO
+If a new public page is added, include it in `src/pages/sitemap.xml.ts`.
 
-- `src/pages/sitemap.xml.ts`: sitemap estático con las páginas indexables (portada, privacidad,
-  términos). Si se agrega una página pública, sumarla ahí.
-- `public/robots.txt`: todo permitido salvo `/og`; apunta al sitemap.
-- `src/pages/404.astro`: Cloudflare Pages lo sirve con estado 404. Sin él, cualquier ruta inexistente
-  devolvía la portada con 200 ("soft 404").
-- Íconos: `favicon.ico` (16/32/48), `favicon-96.png`, `favicon.svg`, `apple-touch-icon.png` e
-  `icon-*.png` del `manifest.webmanifest`. Google usa el ícono del sitio en sus resultados (cuadrado,
-  48 px o más). Se generan desde `favicon.svg`.
-- Datos estructurados (JSON-LD) en `index.astro`: `WebSite` (nombre del sitio en Google),
-  `Organization` (logo) y `SoftwareApplication`.
-- Las vistas de playlists compartidas y `/og` llevan `noindex`.
-- `public/_headers`: cabeceras de seguridad y caché larga para `/_astro/*`.
+---
 
-## Contador de descargas
-
-`functions/api/downloads.js` (Cloudflare Pages Function) suma las descargas de `Syncora.apk` y
-`SyncoraSetup.exe` de todos los releases que no son pre-release (deja fuera el canal del motor) y
-responde en el formato de los badges *endpoint* de shields.io. Lo usa el README de la app:
-`https://img.shields.io/endpoint?url=https://syncoraplayer.app/api/downloads`. Variable de entorno
-opcional `GITHUB_TOKEN` en el proyecto de Pages (token fine-grained, solo lectura de repos públicos).
-
-## Desplegar en Cloudflare Pages
-
-1. Sube este repo a GitHub.
-2. Cloudflare → Workers & Pages → Create → Pages → conecta el repo.
-3. Framework preset: **Astro**. Build command: `npm run build`. Output: `dist`.
-4. Variable de entorno `NODE_VERSION` = `22` (o la que uses en local).
-5. El dominio (`syncoraplayer.app`) ya está en `site` de `astro.config.mjs`.
-6. Web Analytics se activa desde el proyecto de Pages (sin cookies, no requiere código).
+<div align="center">
+  Part of the <a href="https://github.com/NotJcao17/syncora-player">Syncora</a> family · Created by <b>Juan Carlos Orozco Nieto</b>
+</div>
